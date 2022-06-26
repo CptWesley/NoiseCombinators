@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using NoiseCombinators.NoiseGenerators;
+using NoiseCombinators.NoiseGenerators.Modifiers;
 
 namespace NoiseCombinators;
 
@@ -121,4 +121,24 @@ public static class NoiseExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static INoise Clamp(this INoise noise, Func<INoise, double> min, Func<INoise, double> max)
         => new ClampedNoise(noise, min(noise), max(noise));
+
+    /// <summary>
+    /// Inverts the values produced by the noise generator within its original range.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Invert(this INoise noise)
+        => new InvertedNoise(noise);
+
+    /// <summary>
+    /// Shifts the noise generator with the given amount on the axes.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="x">The amount of shift on the x-axis.</param>
+    /// <param name="y">The amount of shift on the y-axis.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Shift(this INoise noise, double x, double y)
+        => new ShiftedNoise(noise, x, y);
 }

@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using NoiseCombinators.Hashing;
 
-namespace NoiseCombinators.NoiseGenerators;
+namespace NoiseCombinators.NoiseGenerators.Basis;
 
 /// <summary>
 /// Provides a noise generator which applies two dimensional smootherstep interpolation to generate noise.

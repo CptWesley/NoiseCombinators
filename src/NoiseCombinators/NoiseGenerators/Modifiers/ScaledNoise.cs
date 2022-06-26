@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace NoiseCombinators.NoiseGenerators;
+namespace NoiseCombinators.NoiseGenerators.Modifiers;
 
 /// <summary>
 /// Provides a scaled view of a given source noise generator.

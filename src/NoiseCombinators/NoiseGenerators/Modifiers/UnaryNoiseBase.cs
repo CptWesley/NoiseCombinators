@@ -1,4 +1,4 @@
-﻿namespace NoiseCombinators.NoiseGenerators;
+﻿namespace NoiseCombinators.NoiseGenerators.Modifiers;
 
 /// <summary>
 /// Provides a base class for unary noise modifiers.

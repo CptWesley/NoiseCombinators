@@ -1,5 +1,6 @@
 ﻿using NoiseCombinators.Hashing;
 using NoiseCombinators.NoiseGenerators;
+using NoiseCombinators.NoiseGenerators.Basis;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -17,9 +18,11 @@ public static class Program
         const double scale = 0.02;
         INoise noise = new BicubicNoise(42)
             .Scale(scale)
+            .Shift(-sizeHalf, -sizeHalf)
             .Normalize()
-            .ApplyKernelFilter(Kernels.Gaussian5());
-        double[][] data = noise.GetChunk(-sizeHalf, -sizeHalf, size, size);
+            .ApplyKernelFilter(Kernels.Gaussian5())
+            .Invert();
+        double[][] data = noise.GetChunk(0, 0, size, size);
         SaveAsImage(data, $"{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.png");
     }
 

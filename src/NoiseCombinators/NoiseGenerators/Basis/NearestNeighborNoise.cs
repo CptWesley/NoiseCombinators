@@ -2,7 +2,7 @@
 using NoiseCombinators.Hashing;
 using NoiseCombinators.Internal;
 
-namespace NoiseCombinators.NoiseGenerators;
+namespace NoiseCombinators.NoiseGenerators.Basis;
 
 /// <summary>
 /// A noise function which uses the nearest neighbor.

@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using NoiseCombinators.Hashing;
 using NoiseCombinators.Internal;
 
-namespace NoiseCombinators.NoiseGenerators;
+namespace NoiseCombinators.NoiseGenerators.Basis;
 
 /// <summary>
 /// Provides a base for bicubic interpolation based noise generators.

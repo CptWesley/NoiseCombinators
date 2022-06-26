@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace NoiseCombinators.NoiseGenerators;
+namespace NoiseCombinators.NoiseGenerators.Modifiers;
 
 /// <summary>
 /// Provides a noise modifier which changes the range of a given noise generator by clamping.

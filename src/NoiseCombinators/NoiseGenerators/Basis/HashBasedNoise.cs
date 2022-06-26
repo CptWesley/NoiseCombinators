@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using NoiseCombinators.Hashing;
 
-namespace NoiseCombinators.NoiseGenerators;
+namespace NoiseCombinators.NoiseGenerators.Basis;
 
 /// <summary>
 /// Provides a basis for other hash based noise generators.

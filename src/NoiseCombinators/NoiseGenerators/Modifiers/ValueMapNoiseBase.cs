@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace NoiseCombinators.NoiseGenerators;
+namespace NoiseCombinators.NoiseGenerators.Modifiers;
 
 /// <summary>
 /// Provides a basis for noise modifiers that remap values.

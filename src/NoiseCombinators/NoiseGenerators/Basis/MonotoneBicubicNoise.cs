@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using NoiseCombinators.Hashing;
 
-namespace NoiseCombinators.NoiseGenerators;
+namespace NoiseCombinators.NoiseGenerators.Basis;
 
 /// <summary>
 /// A noise generator using a two dimensional version of monotone cubic interpolation.

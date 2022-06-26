@@ -13,9 +13,6 @@ public abstract class UnaryNoiseBase : NoiseBase
         => Source = source;
 
     /// <inheritdoc/>
-    public override sealed int Seed => Source.Seed;
-
-    /// <inheritdoc/>
     public override double Min => Source.Min;
 
     /// <inheritdoc/>

@@ -3,7 +3,7 @@
 /// <summary>
 /// Provides an interface for 2 dimensional noise functions.
 /// </summary>
-public interface INoise : ISeeded
+public interface INoise
 {
     /// <summary>
     /// Gets the lower bound value of the noise produced by this noise generator.

@@ -6,7 +6,7 @@ namespace NoiseCombinators.NoiseGenerators;
 /// <summary>
 /// Provides a basis for other hash based noise generators.
 /// </summary>
-public abstract class HashBasedNoise : NoiseBase
+public abstract class HashBasedNoise : NoiseBase, ISeeded
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="HashBasedNoise"/> class.
@@ -27,7 +27,7 @@ public abstract class HashBasedNoise : NoiseBase
     public override double Max => 1;
 
     /// <inheritdoc/>
-    public override sealed int Seed => Hashing.Seed;
+    public int Seed => Hashing.Seed;
 
     /// <summary>
     /// Gets the exact value at the given coordinates.

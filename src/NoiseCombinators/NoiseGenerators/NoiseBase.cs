@@ -14,9 +14,6 @@ public abstract class NoiseBase : INoise
     public abstract double Max { get; }
 
     /// <inheritdoc/>
-    public abstract int Seed { get; }
-
-    /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public virtual double Get(double x, double y)
         => GetChunk(x, y, 1, 1)[0][0];

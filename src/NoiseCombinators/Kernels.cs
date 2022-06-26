@@ -28,9 +28,9 @@ public static class Kernels
         return new double[][]
         {
             new double[] { 1 / 273d,  4 / 273d,  7 / 273d,  4 / 273d, 1 / 273d },
-            new double[] { 4 / 273d, 16 / 273d, 26 / 273d, 16 / 273d, 1 / 273d },
-            new double[] { 7 / 273d, 26 / 273d, 41 / 273d, 26 / 273d, 1 / 273d },
-            new double[] { 4 / 273d, 14 / 273d, 26 / 273d, 16 / 273d, 1 / 273d },
+            new double[] { 4 / 273d, 16 / 273d, 26 / 273d, 16 / 273d, 4 / 273d },
+            new double[] { 7 / 273d, 26 / 273d, 41 / 273d, 26 / 273d, 7 / 273d },
+            new double[] { 4 / 273d, 16 / 273d, 26 / 273d, 16 / 273d, 4 / 273d },
             new double[] { 1 / 273d,  4 / 273d,  7 / 273d,  4 / 273d, 1 / 273d },
         };
     }

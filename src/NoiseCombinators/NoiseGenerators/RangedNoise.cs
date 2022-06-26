@@ -15,7 +15,7 @@ public sealed class RangedNoise : ValueMapNoiseBase
     /// <summary>
     /// Initializes a new instance of the <see cref="RangedNoise"/> class.
     /// </summary>
-    /// <param name="source">The noise generator to normalize.</param>
+    /// <param name="source">The noise generator to change the range of.</param>
     /// <param name="min">The new minimum value.</param>
     /// <param name="max">The new maximum value.</param>
     public RangedNoise(INoise source, double min, double max)

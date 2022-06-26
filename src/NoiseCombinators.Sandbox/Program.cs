@@ -15,8 +15,11 @@ public static class Program
         const int size = 2560;
         const int sizeHalf = size / 2;
         const double scale = 0.02;
-        INoise noise = new KernelFilterNoise(new RangedNoise(new BicubicNoise(42), 0, 1), Kernels.Gaussian5());
-        double[][] data = noise.GetChunk(-sizeHalf * scale, -sizeHalf * scale, size, size, scale);
+        INoise noise = new BicubicNoise(42)
+            .Scale(scale)
+            .Normalize()
+            .ApplyKernelFilter(Kernels.Gaussian5());
+        double[][] data = noise.GetChunk(-sizeHalf, -sizeHalf, size, size);
         SaveAsImage(data, $"{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.png");
     }
 

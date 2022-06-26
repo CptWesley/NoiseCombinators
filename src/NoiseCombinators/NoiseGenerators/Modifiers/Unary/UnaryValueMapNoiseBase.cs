@@ -1,17 +1,17 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace NoiseCombinators.NoiseGenerators.Modifiers;
+namespace NoiseCombinators.NoiseGenerators.Modifiers.Unary;
 
 /// <summary>
 /// Provides a basis for noise modifiers that remap values.
 /// </summary>
-public abstract class ValueMapNoiseBase : UnaryNoiseBase
+public abstract class UnaryValueMapNoiseBase : UnaryNoiseBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ValueMapNoiseBase"/> class.
+    /// Initializes a new instance of the <see cref="UnaryValueMapNoiseBase"/> class.
     /// </summary>
     /// <param name="source">The noise generator to modify.</param>
-    protected ValueMapNoiseBase(INoise source)
+    protected UnaryValueMapNoiseBase(INoise source)
         : base(source)
     {
     }

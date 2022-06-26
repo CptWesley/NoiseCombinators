@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using NoiseCombinators.NoiseGenerators.Modifiers;
+using NoiseCombinators.NoiseGenerators.Modifiers.Binary;
+using NoiseCombinators.NoiseGenerators.Modifiers.Unary;
 
 namespace NoiseCombinators;
 
@@ -152,4 +154,151 @@ public static class NoiseExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static INoise Shift(this INoise noise, double x, double y)
         => new ShiftedNoise(noise, x, y);
+
+    /// <summary>
+    /// Adds the results of two noise generators.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="other">The other noise generator.</param>
+    /// <returns>The combined noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Add(this INoise noise, INoise other)
+        => new AddedNoise(noise, other);
+
+    /// <summary>
+    /// Adds the results of multiple noise generators.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="others">The other noise generators.</param>
+    /// <returns>The combined noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Add(this INoise noise, IEnumerable<INoise> others)
+    {
+        INoise result = noise;
+
+        foreach (INoise other in others)
+        {
+            result = result.Add(other);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Adds the results of multiple noise generators.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="others">The other noise generators.</param>
+    /// <returns>The combined noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Add(this INoise noise, params INoise[] others)
+        => noise.Add((IEnumerable<INoise>)others);
+
+    /// <summary>
+    /// Adds a scalar to the result of a noise generator.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="scalar">The added scalar.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Add(this INoise noise, double scalar)
+        => new AddedScalarNoise(noise, scalar);
+
+    /// <summary>
+    /// Subtracts the results of two noise generators.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="other">The other noise generator.</param>
+    /// <returns>The combined noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Subtract(this INoise noise, INoise other)
+        => new AddedNoise(noise, other);
+
+    /// <summary>
+    /// Subtracts the results of multiple noise generators.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="others">The other noise generators.</param>
+    /// <returns>The combined noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Subtract(this INoise noise, IEnumerable<INoise> others)
+    {
+        INoise result = noise;
+
+        foreach (INoise other in others)
+        {
+            result = result.Subtract(other);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Subtracts the results of multiple noise generators.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="others">The other noise generators.</param>
+    /// <returns>The combined noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Subtract(this INoise noise, params INoise[] others)
+        => noise.Subtract((IEnumerable<INoise>)others);
+
+    /// <summary>
+    /// Subtracts a scalar from the result of a noise generator.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="scalar">The subtracted scalar.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Subtract(this INoise noise, double scalar)
+        => new SubtractedScalarNoise(noise, scalar);
+
+    /// <summary>
+    /// Multiplies the results of two noise generators.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="other">The other noise generator.</param>
+    /// <returns>The combined noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Multiply(this INoise noise, INoise other)
+        => new MultipliedNoise(noise, other);
+
+    /// <summary>
+    /// Multiplies the results of multiple noise generators.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="others">The other noise generators.</param>
+    /// <returns>The combined noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Multiply(this INoise noise, IEnumerable<INoise> others)
+    {
+        INoise result = noise;
+
+        foreach (INoise other in others)
+        {
+            result = result.Multiply(other);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Multiplies the results of multiple noise generators.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="others">The other noise generators.</param>
+    /// <returns>The combined noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Multiply(this INoise noise, params INoise[] others)
+        => noise.Multiply((IEnumerable<INoise>)others);
+
+    /// <summary>
+    /// Multiplies a scalar with the result of a noise generator.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="scalar">The multiplication scalar.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Multiply(this INoise noise, double scalar)
+        => new MultipliedScalarNoise(noise, scalar);
 }

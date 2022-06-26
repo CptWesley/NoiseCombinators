@@ -1,11 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace NoiseCombinators.NoiseGenerators.Modifiers;
+namespace NoiseCombinators.NoiseGenerators.Modifiers.Unary;
 
 /// <summary>
 /// Provides a noise modifier which changes the range of a given noise generator.
 /// </summary>
-public sealed class RangedNoise : ValueMapNoiseBase
+public sealed class RangedNoise : UnaryValueMapNoiseBase
 {
     private readonly double sourceMin;
     private readonly double sourceMax;

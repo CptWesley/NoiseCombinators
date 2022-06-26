@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace NoiseCombinators.NoiseGenerators.Modifiers;
+namespace NoiseCombinators.NoiseGenerators.Modifiers.Unary;
 
 /// <summary>
 /// Provides a noise generator that applies a kernel filter on an existing noise generator.

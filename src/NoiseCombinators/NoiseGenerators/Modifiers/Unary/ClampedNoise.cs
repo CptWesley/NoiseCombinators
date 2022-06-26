@@ -1,11 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace NoiseCombinators.NoiseGenerators.Modifiers;
+namespace NoiseCombinators.NoiseGenerators.Modifiers.Unary;
 
 /// <summary>
 /// Provides a noise modifier which changes the range of a given noise generator by clamping.
 /// </summary>
-public sealed class ClampedNoise : ValueMapNoiseBase
+public sealed class ClampedNoise : UnaryValueMapNoiseBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ClampedNoise"/> class.

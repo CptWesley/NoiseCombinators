@@ -1,11 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace NoiseCombinators.NoiseGenerators.Modifiers;
+namespace NoiseCombinators.NoiseGenerators.Modifiers.Unary;
 
 /// <summary>
 /// Provides a noise generator which inverts the values within the original range.
 /// </summary>
-public sealed class InvertedNoise : ValueMapNoiseBase
+public sealed class InvertedNoise : UnaryValueMapNoiseBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="InvertedNoise"/> class.

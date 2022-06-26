@@ -94,11 +94,22 @@ public static class NoiseExtensions
     /// Modifies the scale of the given noise generator.
     /// </summary>
     /// <param name="noise">The noise generator.</param>
-    /// <param name="scale">The scale modifier to apply.</param>
+    /// <param name="scaleX">The scale modifier to apply on the x-axis.</param>
+    /// <param name="scaleY">The scale modifier to apply on the y-axis.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Scale(this INoise noise, double scaleX, double scaleY)
+        => new ScaledNoise(noise, scaleX, scaleY);
+
+    /// <summary>
+    /// Modifies the scale of the given noise generator.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="scale">The scale modifier to apply on the x-axis.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static INoise Scale(this INoise noise, double scale)
-        => new ScaledNoise(noise, scale);
+        => noise.Scale(scale, scale);
 
     /// <summary>
     /// Changes the range of the given noise generator by clamping.

@@ -15,7 +15,7 @@ public static class Program
     {
         const int size = 2560;
         const int sizeHalf = size / 2;
-        const double scale = 0.02;
+        const double scale = 50;
         INoise noise = new BicubicNoise(42)
             .Scale(scale)
             .Shift(-sizeHalf, -sizeHalf)

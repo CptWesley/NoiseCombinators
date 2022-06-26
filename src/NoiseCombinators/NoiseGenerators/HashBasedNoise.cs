@@ -21,10 +21,10 @@ public abstract class HashBasedNoise : NoiseBase
     public IHashing64 Hashing { get; }
 
     /// <inheritdoc/>
-    public override sealed double Min => 0;
+    public override double Min => 0;
 
     /// <inheritdoc/>
-    public override sealed double Max => 1;
+    public override double Max => 1;
 
     /// <inheritdoc/>
     public override sealed int Seed => Hashing.Seed;

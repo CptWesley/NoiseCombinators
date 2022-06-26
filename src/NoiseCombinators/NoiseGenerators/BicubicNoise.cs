@@ -36,6 +36,12 @@ public sealed class BicubicNoise : BicubicNoiseBase
     }
 
     /// <inheritdoc/>
+    public override double Max => 1.625;
+
+    /// <inheritdoc/>
+    public override double Min => -0.625;
+
+    /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected override double Interpolate(double t, double x0, double x1, double x2, double x3)
     {
@@ -48,7 +54,6 @@ public sealed class BicubicNoise : BicubicNoiseBase
         double s = x1;
 
         double result = (p * t3) + (q * t2) + (r * t) + s;
-
         return result;
     }
 }

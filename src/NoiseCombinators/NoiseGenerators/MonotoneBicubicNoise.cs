@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using NoiseCombinators.Hashing;
-using NoiseCombinators.Internal;
 
 namespace NoiseCombinators.NoiseGenerators;
 
@@ -44,51 +43,22 @@ public sealed class MonotoneBicubicNoise : BicubicNoiseBase
         double s1 = x2 - x1;
         double s2 = x3 - x2;
 
-        double m0;
-        double m1;
+        double f0 = (s0 < 0 && s1 > 0) || (s0 > 0 && s1 < 0) ? 0 : 2 / ((1 / (x2 - x1)) + (1 / (x1 - x0)));
+        double f1 = (s1 < 0 && s2 > 0) || (s1 > 0 && s2 < 0) ? 0 : 2 / ((1 / (x3 - x2)) + (1 / (x2 - x1)));
 
-        if (BitUtilities.NearlyEqual(x1, x2))
-        {
-            m0 = 0;
-            m1 = 0;
-        }
-        else
-        {
-            if (BitUtilities.NearlyEqual(x0, x1) || (s0 < 0 && s1 >= 0) || (s0 > 0 && s1 <= 0))
-            {
-                m0 = 0;
-            }
-            else
-            {
-                m0 = (s0 + s1) * 0.5;
-                m0 *= Math.Min(3 * s0 / m0, Math.Min(3 * s1 * m0, 1));
-            }
+        double ff0 = ((-2 * (f1 + (2 * f0))) / 1) + (6 * (x2 - x1));
+        double ff1 = ((2 * ((2 * f1) + f0)) / 1) - (6 * (x2 - x1));
 
-            if (BitUtilities.NearlyEqual(x1, x2) || (s1 < 0 && s2 >= 0) || (s1 > 0 && s2 <= 0))
-            {
-                m1 = 0;
-            }
-            else
-            {
-                m1 = (s1 + s2) * 0.5;
-                m1 *= Math.Min(3 * s1 / m1, Math.Min(3 * s2 * m1, 1));
-            }
-        }
+        double d = (ff1 - ff0) / 6;
+        double c = ((2 * ff0) - (1 * ff1)) / 2;
+        double b = (x2 - x1) - (c * 3) - (d * 7);
+        double a = x1 - (b * 1) - (c * 1) - (d * 1);
 
-        double result = ((((((m0 + m1 - (2.0 * s1)) * t) + ((3.0 * s1) - (2.0 * m0) - m1)) * t) + m0) * t) + x1;
+        double x = 1 + t;
+        double xPow2 = x * x;
+        double xPow3 = xPow2 * x;
 
-        double min = Math.Min(x1, x2);
-        double max = Math.Max(x1, x2);
-
-        if (result < min)
-        {
-            return min;
-        }
-
-        if (result > max)
-        {
-            return max;
-        }
+        double result = a + (b * x) + (c * xPow2) + (d * xPow3);
 
         return result;
     }

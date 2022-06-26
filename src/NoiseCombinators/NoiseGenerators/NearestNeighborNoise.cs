@@ -46,8 +46,8 @@ public sealed class NearestNeighborNoise : HashBasedNoise
     /// <inheritdoc/>
     public override double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
-        int iStepsX = BitUtilities.FastCeiling(stepsX * stepSizeX);
-        int iStepsY = BitUtilities.FastCeiling(stepsY * stepSizeY);
+        int iStepsX = BitUtilities.FastCeiling(stepsX * stepSizeX) + 1;
+        int iStepsY = BitUtilities.FastCeiling(stepsY * stepSizeY) + 1;
 
         int xLow = BitUtilities.FastFloor(x);
         int yLow = BitUtilities.FastFloor(y);

@@ -212,7 +212,7 @@ public static class NoiseExtensions
     /// <returns>The combined noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static INoise Subtract(this INoise noise, INoise other)
-        => new AddedNoise(noise, other);
+        => new SubtractedNoise(noise, other);
 
     /// <summary>
     /// Subtracts the results of multiple noise generators.
@@ -301,4 +301,159 @@ public static class NoiseExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static INoise Multiply(this INoise noise, double scalar)
         => new MultipliedScalarNoise(noise, scalar);
+
+    /// <summary>
+    /// Applies a function to every value obtained from the given noise generator.
+    /// Note that this is a very powerful combinator which allows you to violate the
+    /// upper and lower bounds if not configured properly.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="func">The function to apply.</param>
+    /// <param name="min">The function to compute the new minimum value.</param>
+    /// <param name="max">The function to compute the new maximum value.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Apply(this INoise noise, Func<double, double> func, Func<INoise, double> min, Func<INoise, double> max)
+        => new AppliedLambdaNoise(noise, func, min, max);
+
+    /// <summary>
+    /// Applies a function to every value obtained from the given noise generator.
+    /// Note that this is a very powerful combinator which allows you to violate the
+    /// upper and lower bounds if not configured properly.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="func">The function to apply.</param>
+    /// <param name="min">The new minimum value.</param>
+    /// <param name="max">The new maximum value.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise Apply(this INoise noise, Func<double, double> func, double min, double max)
+        => noise.Apply(func, n => min, n => max);
+
+    /// <summary>
+    /// Applies a sigmoid function to the output of the given noise generator.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="centerSlope">The slope at the center of the sigmoid function.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise ApplySigmoid(this INoise noise, double centerSlope)
+    {
+        double min = noise.Min;
+        double max = noise.Max;
+        double range = max - min;
+        double r = range / 2;
+        double s = Math.Abs(centerSlope);
+        double sgn = Math.Sign(centerSlope);
+        if (sgn == 0)
+        {
+            sgn = 1;
+        }
+
+        double rd1 = sgn * ((r * s) + 1);
+        double rs = r + min;
+
+        return noise.Apply(
+            v =>
+            {
+                double vrs = v - rs;
+                return (rd1 * vrs / (1 + (s * Math.Abs(vrs)))) + rs;
+            },
+            min,
+            max);
+    }
+
+    /// <summary>
+    /// Applies a sigmoid function to the output of the given noise generator.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise ApplySigmoid(this INoise noise)
+        => noise.ApplySigmoid(1);
+
+    /// <summary>
+    /// Applies a sigmoid function to the output of the given noise generator.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="centerSlope">The slope at the center of the sigmoid function.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise ApplySigmoidAlternative(this INoise noise, double centerSlope)
+    {
+        double min = noise.Min;
+        double max = noise.Max;
+        double range = max - min;
+        double r = range / 2d;
+        double s = Math.Abs(centerSlope);
+        double sgn = Math.Sign(centerSlope);
+        if (sgn == 0)
+        {
+            sgn = 1;
+        }
+
+        double rst = r * s;
+        double rd1 = sgn * Math.Sqrt((rst * rst) + 1);
+        double rs = r + min;
+
+        return noise.Apply(
+            v =>
+            {
+                double vrs = v - rs;
+                double z = s * vrs;
+                double z2 = z * z;
+                return (rd1 * vrs / Math.Sqrt(1 + z2)) + rs;
+            },
+            min,
+            max);
+    }
+
+    /// <summary>
+    /// Applies a sigmoid function to the output of the given noise generator.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise ApplySigmoidAlternative(this INoise noise)
+        => noise.ApplySigmoidAlternative(1);
+
+    /// <summary>
+    /// Applies a sigmoid function to the output of the given noise generator.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="centerSlope">The slope at the center of the sigmoid function.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise ApplySigmoid(this INoise noise, double centerSlope, int pow)
+    {
+        double realPow = Math.Pow(2, pow);
+        double realPowInv = 1d / realPow;
+
+        double min = noise.Min;
+        double max = noise.Max;
+        double range = max - min;
+        double r = range / 2d;
+        double s = Math.Abs(centerSlope);
+        double sgn = Math.Sign(centerSlope);
+        if (sgn == 0)
+        {
+            sgn = 1;
+        }
+
+        double rst = r * s;
+        double rstPow = Math.Pow(rst, realPow);
+        double rd1 = sgn * Math.Pow(1 + rstPow, realPowInv);
+        double rs = r + min;
+
+        return noise.Apply(
+            v =>
+            {
+                double vrs = v - rs;
+                double z = s * vrs;
+                double zPow = Math.Pow(z, realPow);
+                return (rd1 * vrs / Math.Pow(1 + zPow, realPowInv)) + rs;
+            },
+            min,
+            max);
+    }
 }

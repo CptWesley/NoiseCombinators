@@ -22,8 +22,7 @@ public static class Program
             .Scale(scale)
             .Shift(-sizeHalf, -sizeHalf)
             .Normalize()
-            .ApplySigmoid(4, 8)
-            .ApplyKernelFilter(Kernels.Gaussian5());
+            .ApplySigmoid(4, 8);
         double[][] data = noise.GetChunk(0, 0, size, size);
         SaveAsImage(data, $"{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.png");
     }

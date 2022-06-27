@@ -89,7 +89,7 @@ public static class NoiseExtensions
     /// <param name="kernel">The kernel to apply.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise ApplyKernelFilter(this INoise noise, double[][] kernel)
+    public static INoise ApplyKernelFilter(this INoise noise, Kernel kernel)
         => new KernelFilterNoise(noise, kernel);
 
     /// <summary>

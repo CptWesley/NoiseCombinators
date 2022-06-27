@@ -7,7 +7,6 @@ namespace NoiseCombinators.NoiseGenerators.Modifiers.Unary;
 /// </summary>
 public sealed class KernelFilterNoise : UnaryNoiseBase
 {
-    private readonly double[][] kernel;
     private readonly int extraWidth;
     private readonly int extraHeight;
     private readonly int extraWidth2;
@@ -18,44 +17,34 @@ public sealed class KernelFilterNoise : UnaryNoiseBase
     /// </summary>
     /// <param name="source">The base noise generator.</param>
     /// <param name="kernel">The kernel to apply.</param>
-    public KernelFilterNoise(INoise source, double[][] kernel)
+    public KernelFilterNoise(INoise source, Kernel kernel)
         : base(source)
     {
-        this.kernel = CopyKernel(kernel);
-        KernelWidth = kernel.Length;
-        KernelHeight = kernel[0].Length;
-        extraWidth = KernelWidth / 2;
-        extraHeight = KernelHeight / 2;
+        Kernel = kernel;
+        extraWidth = Kernel.Width / 2;
+        extraHeight = Kernel.Height / 2;
         extraWidth2 = extraWidth * 2;
         extraHeight2 = extraHeight * 2;
 
-        double kernelSum = 0;
-        for (int i = 0; i < KernelWidth; i++)
-        {
-            for (int j = 0; j < KernelHeight; j++)
-            {
-                kernelSum += kernel[i][j];
-            }
-        }
+        double mi = source.Min * Kernel.Max;
+        double ma = source.Max * Kernel.Max;
 
-        Min = Source.Min * kernelSum;
-        Max = Source.Max * kernelSum;
+        if (mi > ma)
+        {
+            Max = mi;
+            Min = ma;
+        }
+        else
+        {
+            Max = ma;
+            Min = mi;
+        }
     }
 
     /// <summary>
-    /// Gets a copy of the kernel.
+    /// Gets the kernel.
     /// </summary>
-    public double[][] Kernel => CopyKernel(kernel);
-
-    /// <summary>
-    /// Gets the width of the kernel.
-    /// </summary>
-    public int KernelWidth { get; }
-
-    /// <summary>
-    /// Gets the height of the kernel.
-    /// </summary>
-    public int KernelHeight { get; }
+    public Kernel Kernel { get; }
 
     /// <inheritdoc/>
     public override sealed double Min { get; }
@@ -83,17 +72,16 @@ public sealed class KernelFilterNoise : UnaryNoiseBase
             {
                 double value = 0;
 
-                for (int kx = 0; kx < KernelWidth; kx++)
+                for (int kx = 0; kx < Kernel.Width; kx++)
                 {
-                    double[] kernelCol = kernel[kx];
                     double[] valuesCol = values[ix + kx];
-                    for (int ky = 0; ky < KernelHeight; ky++)
+                    for (int ky = 0; ky < Kernel.Height; ky++)
                     {
-                        value += kernelCol[ky] * valuesCol[iy + ky];
+                        value += Kernel[kx, ky] * valuesCol[iy + ky];
                     }
                 }
 
-                col[iy] = value;
+                col[iy] = value / Kernel.Divisor;
             }
         }
 

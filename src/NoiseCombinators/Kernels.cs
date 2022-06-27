@@ -6,66 +6,44 @@
 public static class Kernels
 {
     /// <summary>
-    /// Creates a discrete Gaussian kernel of size 3.
+    /// Gets a discrete 3x3 Gaussian kernel.
     /// </summary>
-    /// <returns>The discrete Gaussian kernel of size 3.</returns>
-    public static double[][] Gaussian3()
-    {
-        return new double[][]
+    public static readonly Kernel Gaussian3 = new Kernel(
+        new double[][]
         {
-            new double[] { 1d / 16, 1d / 8, 1d / 16 },
-            new double[] { 1d / 8, 1d / 4, 1d / 8 },
-            new double[] { 1d / 16, 1d / 8, 1d / 16 },
-        };
-    }
+            new double[] { 1, 2, 1 },
+            new double[] { 2, 4, 2 },
+            new double[] { 1, 2, 1 },
+        },
+        16);
 
     /// <summary>
-    /// Creates a discrete Gaussian kernel of size 5.
+    /// Gets a discrete 5x5 Gaussian kernel.
     /// </summary>
-    /// <returns>The discrete Gaussian kernel of size 5.</returns>
-    public static double[][] Gaussian5()
-    {
-        return new double[][]
+    public static readonly Kernel Gaussian5 = new Kernel(
+        new double[][]
         {
-            new double[] { 1 / 273d,  4 / 273d,  7 / 273d,  4 / 273d, 1 / 273d },
-            new double[] { 4 / 273d, 16 / 273d, 26 / 273d, 16 / 273d, 4 / 273d },
-            new double[] { 7 / 273d, 26 / 273d, 41 / 273d, 26 / 273d, 7 / 273d },
-            new double[] { 4 / 273d, 16 / 273d, 26 / 273d, 16 / 273d, 4 / 273d },
-            new double[] { 1 / 273d,  4 / 273d,  7 / 273d,  4 / 273d, 1 / 273d },
-        };
-    }
+            new double[] { 1,  4,  7,  4, 1 },
+            new double[] { 4, 16, 26, 16, 4 },
+            new double[] { 7, 26, 41, 26, 7 },
+            new double[] { 4, 16, 26, 16, 4 },
+            new double[] { 1,  4,  7,  4, 1 },
+        },
+        273);
 
     /// <summary>
-    /// Creates a discrete box kernel of the given size.
+    /// Gets a discrete 7x7 Gaussian kernel.
     /// </summary>
-    /// <param name="size">The size of the box kernel.</param>
-    /// <returns>The discrete Gaussian kernel of the given size.</returns>
-    public static double[][] Box(int size)
-        => Box(size, size);
-
-    /// <summary>
-    /// Creates a discrete box kernel of the given size.
-    /// </summary>
-    /// <param name="width">The width of the box kernel.</param>
-    /// <param name="height">The height of the box kernel.</param>
-    /// <returns>The discrete Gaussian kernel of the given size.</returns>
-    public static double[][] Box(int width, int height)
-    {
-        int size = width * height;
-        double value = 1d / size;
-        double[][] result = new double[width][];
-
-        for (int x = 0; x < width; x++)
+    public static readonly Kernel Gaussian7 = new Kernel(
+        new double[][]
         {
-            double[] col = new double[height];
-            result[x] = col;
-
-            for (int y = 0; y < height; y++)
-            {
-                col[y] = value;
-            }
-        }
-
-        return result;
-    }
+            new double[] { 0,  0,  1,   2,  1,  0, 0 },
+            new double[] { 0,  3, 13,  22, 13,  3, 0 },
+            new double[] { 1, 13, 59,  97, 59, 13, 1 },
+            new double[] { 2, 22, 97, 159, 97, 22, 2 },
+            new double[] { 1, 13, 59,  97, 59, 13, 1 },
+            new double[] { 0,  3, 13,  22, 13,  3, 0 },
+            new double[] { 0,  0,  1,   2,  1,  0, 0 },
+        },
+        1003);
 }

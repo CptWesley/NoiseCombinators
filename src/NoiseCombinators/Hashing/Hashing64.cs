@@ -49,7 +49,9 @@ public abstract class Hashing64 : IHashing64
         => unchecked((long)HashU64(unchecked((ulong)value)));
 
     /// <inheritdoc/>
-    public abstract ulong HashU64(ulong value);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public virtual ulong HashU64(ulong value)
+        => HashU64WithSeed(Seed, value);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -65,4 +67,42 @@ public abstract class Hashing64 : IHashing64
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ulong HashU64(int value)
         => HashU64(unchecked((ulong)value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public long Hash64WithSeed(int seed, ulong value)
+        => unchecked((long)HashU64WithSeed(seed, value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public long Hash64WithSeed(int seed, long value)
+        => unchecked((long)HashU64WithSeed(seed, unchecked((ulong)value)));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public long Hash64WithSeed(int seed, uint value)
+        => unchecked((long)HashU64WithSeed(seed, unchecked((ulong)value)));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public long Hash64WithSeed(int seed, int value)
+        => unchecked((long)HashU64WithSeed(seed, unchecked((ulong)value)));
+
+    /// <inheritdoc/>
+    public abstract ulong HashU64WithSeed(int seed, ulong value);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ulong HashU64WithSeed(int seed, long value)
+        => HashU64WithSeed(seed, unchecked((ulong)value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ulong HashU64WithSeed(int seed, uint value)
+        => HashU64WithSeed(seed, unchecked((ulong)value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ulong HashU64WithSeed(int seed, int value)
+        => HashU64WithSeed(seed, unchecked((ulong)value));
 }

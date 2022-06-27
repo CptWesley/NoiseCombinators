@@ -17,6 +17,7 @@ public sealed class MultipliedScalarNoise : UnaryValueMapNoiseBase
     {
         double mi = source.Min * scalar;
         double ma = source.Max * scalar;
+        Scalar = scalar;
 
         if (mi > ma)
         {

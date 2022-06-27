@@ -17,6 +17,7 @@ public sealed class SubtractedScalarNoise : UnaryValueMapNoiseBase
     {
         Min = source.Min - scalar;
         Max = source.Max - scalar;
+        Scalar = scalar;
     }
 
     /// <summary>

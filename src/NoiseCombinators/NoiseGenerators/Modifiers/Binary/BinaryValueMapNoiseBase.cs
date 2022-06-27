@@ -24,21 +24,20 @@ public abstract class BinaryValueMapNoiseBase : BinaryNoiseBase
     public override abstract double Max { get; }
 
     /// <inheritdoc/>
+    public override sealed double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    {
+        double[][] result1 = SourceLeft.GetChunkWithSeed(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        double[][] result2 = SourceRight.GetChunkWithSeed(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        CombineResults(result1, result2, stepsX, stepsY);
+        return result1;
+    }
+
+    /// <inheritdoc/>
     public override sealed double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
         double[][] result1 = SourceLeft.GetChunk(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
         double[][] result2 = SourceRight.GetChunk(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
-
-        for (int ix = 0; ix < stepsX; ix++)
-        {
-            double[] col1 = result1[ix];
-            double[] col2 = result2[ix];
-            for (int iy = 0; iy < stepsY; iy++)
-            {
-                col1[iy] = MapValue(col1[iy], col2[iy]);
-            }
-        }
-
+        CombineResults(result1, result2, stepsX, stepsY);
         return result1;
     }
 
@@ -50,4 +49,18 @@ public abstract class BinaryValueMapNoiseBase : BinaryNoiseBase
     /// <returns>The modified value.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected abstract double MapValue(double valueLeft, double valueRight);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void CombineResults(double[][] result1, double[][] result2, int width, int height)
+    {
+        for (int ix = 0; ix < width; ix++)
+        {
+            double[] col1 = result1[ix];
+            double[] col2 = result2[ix];
+            for (int iy = 0; iy < height; iy++)
+            {
+                col1[iy] = MapValue(col1[iy], col2[iy]);
+            }
+        }
+    }
 }

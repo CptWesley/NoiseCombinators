@@ -15,6 +15,24 @@ public abstract class NoiseBase : INoise
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public virtual double GetWithSeed(int seed, double x, double y)
+        => GetChunkWithSeed(seed, x, y, 1, 1)[0][0];
+
+    /// <inheritdoc/>
+    public abstract double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSize)
+        => GetChunkWithSeed(seed, x, y, stepsX, stepsY, stepSize, stepSize);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY)
+        => GetChunkWithSeed(seed, x, y, stepsX, stepsY, 1);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public virtual double Get(double x, double y)
         => GetChunk(x, y, 1, 1)[0][0];
 

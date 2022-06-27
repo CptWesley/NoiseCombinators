@@ -377,4 +377,24 @@ public static class NoiseExtensions
             min,
             max);
     }
+
+    /// <summary>
+    /// Sets the seed of a noise generator.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="seed">The new seed.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise WithSeed(this INoise noise, int seed)
+        => new SeededNoise(noise, seed);
+
+    /// <summary>
+    /// Modifies a seed supplied to the noise generator containing this noise generator.
+    /// </summary>
+    /// <param name="noise">The noise generator.</param>
+    /// <param name="seed">The seed modification.</param>
+    /// <returns>The modified noise generator.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static INoise WithSeed(this INoise noise, Func<int, int> seed)
+        => new SeededLambdaNoise(noise, seed);
 }

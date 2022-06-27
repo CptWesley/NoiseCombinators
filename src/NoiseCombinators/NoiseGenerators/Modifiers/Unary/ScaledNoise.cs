@@ -37,6 +37,11 @@ public sealed class ScaledNoise : UnaryNoiseBase
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override sealed double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkWithSeed(seed, x * scaleXInv, y * scaleYInv, stepsX, stepsY, stepSizeX * scaleXInv, stepSizeY * scaleYInv);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override sealed double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
         => Source.GetChunk(x * scaleXInv, y * scaleYInv, stepsX, stepsY, stepSizeX * scaleXInv, stepSizeY * scaleYInv);
 }

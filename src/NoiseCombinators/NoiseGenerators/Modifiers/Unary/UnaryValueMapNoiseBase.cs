@@ -23,19 +23,18 @@ public abstract class UnaryValueMapNoiseBase : UnaryNoiseBase
     public override abstract double Max { get; }
 
     /// <inheritdoc/>
+    public override sealed double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    {
+        double[][] result = Source.GetChunkWithSeed(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        CombineResults(result, stepsX, stepsY);
+        return result;
+    }
+
+    /// <inheritdoc/>
     public override sealed double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
         double[][] result = Source.GetChunk(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
-
-        for (int ix = 0; ix < stepsX; ix++)
-        {
-            double[] col = result[ix];
-            for (int iy = 0; iy < stepsY; iy++)
-            {
-                col[iy] = MapValue(col[iy]);
-            }
-        }
-
+        CombineResults(result, stepsX, stepsY);
         return result;
     }
 
@@ -46,4 +45,17 @@ public abstract class UnaryValueMapNoiseBase : UnaryNoiseBase
     /// <returns>The modified value.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected abstract double MapValue(double value);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void CombineResults(double[][] result, int width, int height)
+    {
+        for (int ix = 0; ix < width; ix++)
+        {
+            double[] col = result[ix];
+            for (int iy = 0; iy < height; iy++)
+            {
+                col[iy] = MapValue(col[iy]);
+            }
+        }
+    }
 }

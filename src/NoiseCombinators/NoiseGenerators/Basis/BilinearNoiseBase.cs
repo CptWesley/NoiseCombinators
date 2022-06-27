@@ -37,7 +37,7 @@ public abstract class BilinearNoiseBase : HashBasedNoise
     }
 
     /// <inheritdoc/>
-    public override sealed double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    public override sealed double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
         int xLow = BitUtilities.FastFloor(x);
         int yLow = BitUtilities.FastFloor(y);
@@ -48,7 +48,7 @@ public abstract class BilinearNoiseBase : HashBasedNoise
         double xOff = x - xLow;
         double yOff = y - yLow;
 
-        double[][] values = GetHashValues(xLow, yLow, width, height);
+        double[][] values = GetHashValues(seed, xLow, yLow, width, height);
         double[][] result = new double[stepsX][];
 
         for (int ix = 0; ix < stepsX; ix++)

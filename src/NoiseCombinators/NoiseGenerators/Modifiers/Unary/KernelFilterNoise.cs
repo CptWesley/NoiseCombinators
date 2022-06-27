@@ -53,6 +53,18 @@ public sealed class KernelFilterNoise : UnaryNoiseBase
     public override sealed double Max { get; }
 
     /// <inheritdoc/>
+    public override sealed double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    {
+        double newStartX = x - (extraWidth * stepSizeX);
+        double newStartY = y - (extraHeight * stepSizeY);
+        int newStepsX = stepsX + extraWidth2;
+        int newStepsY = stepsY + extraHeight2;
+
+        double[][] values = Source.GetChunkWithSeed(seed, newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY);
+        return Apply(values, stepsX, stepsY);
+    }
+
+    /// <inheritdoc/>
     public override sealed double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
         double newStartX = x - (extraWidth * stepSizeX);
@@ -61,14 +73,20 @@ public sealed class KernelFilterNoise : UnaryNoiseBase
         int newStepsY = stepsY + extraHeight2;
 
         double[][] values = Source.GetChunk(newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY);
-        double[][] result = new double[stepsX][];
+        return Apply(values, stepsX, stepsY);
+    }
 
-        for (int ix = 0; ix < stepsX; ix++)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private double[][] Apply(double[][] values, int width, int height)
+    {
+        double[][] result = new double[width][];
+
+        for (int ix = 0; ix < width; ix++)
         {
-            double[] col = new double[stepsY];
+            double[] col = new double[height];
             result[ix] = col;
 
-            for (int iy = 0; iy < stepsY; iy++)
+            for (int iy = 0; iy < height; iy++)
             {
                 double value = 0;
 
@@ -82,25 +100,6 @@ public sealed class KernelFilterNoise : UnaryNoiseBase
                 }
 
                 col[iy] = value / Kernel.Divisor;
-            }
-        }
-
-        return result;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static double[][] CopyKernel(double[][] kernel)
-    {
-        double[][] result = new double[kernel.Length][];
-        for (int i = 0; i < kernel.Length; i++)
-        {
-            double[] originalCol = kernel[i];
-            double[] col = new double[originalCol.Length];
-            result[i] = col;
-
-            for (int j = 0; j < col.Length; j++)
-            {
-                col[j] = originalCol[j];
             }
         }
 

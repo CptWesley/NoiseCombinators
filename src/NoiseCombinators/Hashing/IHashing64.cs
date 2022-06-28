@@ -1,4 +1,6 @@
-﻿namespace NoiseCombinators.Hashing;
+﻿using System.Threading.Tasks;
+
+namespace NoiseCombinators.Hashing;
 
 /// <summary>
 /// Provides an interface for hashing functions that produce 64 bit hashes.
@@ -132,4 +134,132 @@ public interface IHashing64 : ISeeded
     /// <param name="value">The value to hash.</param>
     /// <returns>The hash.</returns>
     public long Hash64WithSeed(int seed, int value);
+
+    /// <summary>
+    /// Hashes an unsigned long value.
+    /// </summary>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<ulong> HashU64Async(ulong value);
+
+    /// <summary>
+    /// Hashes a signed long value.
+    /// </summary>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<ulong> HashU64Async(long value);
+
+    /// <summary>
+    /// Hashes an unsigned int value.
+    /// </summary>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<ulong> HashU64Async(uint value);
+
+    /// <summary>
+    /// Hashes a signed int value.
+    /// </summary>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<ulong> HashU64Async(int value);
+
+    /// <summary>
+    /// Hashes an unsigned long value.
+    /// </summary>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<long> Hash64Async(ulong value);
+
+    /// <summary>
+    /// Hashes a signed long value.
+    /// </summary>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<long> Hash64Async(long value);
+
+    /// <summary>
+    /// Hashes an unsigned int value.
+    /// </summary>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<long> Hash64Async(uint value);
+
+    /// <summary>
+    /// Hashes a signed int value.
+    /// </summary>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<long> Hash64Async(int value);
+
+    /// <summary>
+    /// Hashes an unsigned long value using the given seed
+    /// rather than the default hash set in the class.
+    /// </summary>
+    /// <param name="seed">The seed to use.</param>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<ulong> HashU64WithSeedAsync(int seed, ulong value);
+
+    /// <summary>
+    /// Hashes a signed long value using the given seed
+    /// rather than the default hash set in the class.
+    /// </summary>
+    /// <param name="seed">The seed to use.</param>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<ulong> HashU64WithSeedAsync(int seed, long value);
+
+    /// <summary>
+    /// Hashes an unsigned int value using the given seed
+    /// rather than the default hash set in the class.
+    /// </summary>
+    /// <param name="seed">The seed to use.</param>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<ulong> HashU64WithSeedAsync(int seed, uint value);
+
+    /// <summary>
+    /// Hashes a signed int value using the given seed
+    /// rather than the default hash set in the class.
+    /// </summary>
+    /// <param name="seed">The seed to use.</param>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<ulong> HashU64WithSeedAsync(int seed, int value);
+
+    /// <summary>
+    /// Hashes an unsigned long value using the given seed
+    /// rather than the default hash set in the class.
+    /// </summary>
+    /// <param name="seed">The seed to use.</param>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<long> Hash64WithSeedAsync(int seed, ulong value);
+
+    /// <summary>
+    /// Hashes a signed long value using the given seed
+    /// rather than the default hash set in the class.
+    /// </summary>
+    /// <param name="seed">The seed to use.</param>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<long> Hash64WithSeedAsync(int seed, long value);
+
+    /// <summary>
+    /// Hashes an unsigned int value using the given seed
+    /// rather than the default hash set in the class.
+    /// </summary>
+    /// <param name="seed">The seed to use.</param>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<long> Hash64WithSeedAsync(int seed, uint value);
+
+    /// <summary>
+    /// Hashes a signed int value using the given seed
+    /// rather than the default hash set in the class.
+    /// </summary>
+    /// <param name="seed">The seed to use.</param>
+    /// <param name="value">The value to hash.</param>
+    /// <returns>The hash.</returns>
+    public Task<long> Hash64WithSeedAsync(int seed, int value);
 }

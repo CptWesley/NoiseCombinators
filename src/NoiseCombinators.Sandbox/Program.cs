@@ -2,6 +2,7 @@
 using NoiseCombinators.NoiseGenerators;
 using NoiseCombinators.NoiseGenerators.Basis;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -16,6 +17,7 @@ public static class Program
 {
     public static void Main()
     {
+        Stopwatch sw = Stopwatch.StartNew();
         if (OperatingSystem.IsWindows())
         {
             //SimpleExample();
@@ -25,6 +27,8 @@ public static class Program
         {
             Console.WriteLine("Unable to create image on OS that is not Windows.");
         }
+        sw.Stop();
+        Console.WriteLine($"Finished in {sw.ElapsedMilliseconds} ms.");
     }
 
     [SupportedOSPlatform("windows")]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace NoiseCombinators.Hashing;
 
@@ -105,4 +106,84 @@ public abstract class Hashing64 : IHashing64
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public ulong HashU64WithSeed(int seed, int value)
         => HashU64WithSeed(seed, unchecked((ulong)value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<ulong> HashU64Async(ulong value)
+        => Task.Run(() => HashU64(value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<ulong> HashU64Async(long value)
+        => Task.Run(() => HashU64(value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<ulong> HashU64Async(uint value)
+        => Task.Run(() => HashU64(value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<ulong> HashU64Async(int value)
+        => Task.Run(() => HashU64(value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<long> Hash64Async(ulong value)
+        => Task.Run(() => Hash64(value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<long> Hash64Async(long value)
+        => Task.Run(() => Hash64(value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<long> Hash64Async(uint value)
+        => Task.Run(() => Hash64(value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<long> Hash64Async(int value)
+        => Task.Run(() => Hash64(value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<ulong> HashU64WithSeedAsync(int seed, ulong value)
+        => Task.Run(() => HashU64WithSeed(seed, value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<ulong> HashU64WithSeedAsync(int seed, long value)
+        => Task.Run(() => HashU64WithSeed(seed, value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<ulong> HashU64WithSeedAsync(int seed, uint value)
+        => Task.Run(() => HashU64WithSeed(seed, value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<ulong> HashU64WithSeedAsync(int seed, int value)
+        => Task.Run(() => HashU64WithSeed(seed, value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<long> Hash64WithSeedAsync(int seed, ulong value)
+        => Task.Run(() => Hash64WithSeed(seed, value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<long> Hash64WithSeedAsync(int seed, long value)
+        => Task.Run(() => Hash64WithSeed(seed, value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<long> Hash64WithSeedAsync(int seed, uint value)
+        => Task.Run(() => Hash64WithSeed(seed, value));
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Task<long> Hash64WithSeedAsync(int seed, int value)
+        => Task.Run(() => Hash64WithSeed(seed, value));
 }

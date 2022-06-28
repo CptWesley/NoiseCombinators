@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace NoiseCombinators.NoiseGenerators.Modifiers.Unary;
 
@@ -39,4 +40,14 @@ public sealed class ShiftedNoise : UnaryNoiseBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
         => Source.GetChunk(x + ShiftX, y + ShiftY, stepsX, stepsY, stepSizeX, stepSizeY);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkWithSeedAsync(seed, x + ShiftX, y + ShiftY, stepsX, stepsY, stepSizeX, stepSizeY);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkAsync(x + ShiftX, y + ShiftY, stepsX, stepsY, stepSizeX, stepSizeY);
 }

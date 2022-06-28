@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace NoiseCombinators.NoiseGenerators.Modifiers.Unary;
 
@@ -23,6 +24,7 @@ public abstract class UnaryValueMapNoiseBase : UnaryNoiseBase
     public override abstract double Max { get; }
 
     /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override sealed double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
         double[][] result = Source.GetChunkWithSeed(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
@@ -31,9 +33,28 @@ public abstract class UnaryValueMapNoiseBase : UnaryNoiseBase
     }
 
     /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override sealed double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
         double[][] result = Source.GetChunk(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        CombineResults(result, stepsX, stepsY);
+        return result;
+    }
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override sealed async Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    {
+        double[][] result = await Source.GetChunkWithSeedAsync(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY).ConfigureAwait(false);
+        CombineResults(result, stepsX, stepsY);
+        return result;
+    }
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override sealed async Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    {
+        double[][] result = await Source.GetChunkAsync(x, y, stepsX, stepsY, stepSizeX, stepSizeY).ConfigureAwait(false);
         CombineResults(result, stepsX, stepsY);
         return result;
     }

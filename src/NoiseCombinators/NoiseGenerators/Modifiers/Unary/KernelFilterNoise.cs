@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace NoiseCombinators.NoiseGenerators.Modifiers.Unary;
 
@@ -73,6 +74,30 @@ public sealed class KernelFilterNoise : UnaryNoiseBase
         int newStepsY = stepsY + extraHeight2;
 
         double[][] values = Source.GetChunk(newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY);
+        return Apply(values, stepsX, stepsY);
+    }
+
+    /// <inheritdoc/>
+    public override sealed async Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    {
+        double newStartX = x - (extraWidth * stepSizeX);
+        double newStartY = y - (extraHeight * stepSizeY);
+        int newStepsX = stepsX + extraWidth2;
+        int newStepsY = stepsY + extraHeight2;
+
+        double[][] values = await Source.GetChunkWithSeedAsync(seed, newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY).ConfigureAwait(false);
+        return Apply(values, stepsX, stepsY);
+    }
+
+    /// <inheritdoc/>
+    public override sealed async Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    {
+        double newStartX = x - (extraWidth * stepSizeX);
+        double newStartY = y - (extraHeight * stepSizeY);
+        int newStepsX = stepsX + extraWidth2;
+        int newStepsY = stepsY + extraHeight2;
+
+        double[][] values = await Source.GetChunkAsync(newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY).ConfigureAwait(false);
         return Apply(values, stepsX, stepsY);
     }
 

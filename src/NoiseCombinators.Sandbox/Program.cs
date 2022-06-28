@@ -10,18 +10,19 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using System.Threading.Tasks;
 
 namespace NoiseCombinators.Sandbox;
 
 public static class Program
 {
-    public static void Main()
+    public static async Task Main()
     {
         Stopwatch sw = Stopwatch.StartNew();
         if (OperatingSystem.IsWindows())
         {
-            //SimpleExample();
-            BiomeExample();
+            //await SimpleExampleAsync();
+            await BiomeExampleAsync();
         }
         else
         {
@@ -32,7 +33,7 @@ public static class Program
     }
 
     [SupportedOSPlatform("windows")]
-    private static void BiomeExample()
+    private static async Task BiomeExampleAsync()
     {
         const int size = 2560;
         const int sizeHalf = size / 2;
@@ -63,9 +64,12 @@ public static class Program
             .Apply(x => Math.Pow(x, 1.5), 0, 1)
             .ApplyKernelFilter(Kernels.Gaussian5);
         DateTime time = DateTime.Now;
-        double[][] temperatures = temperatureNoise.GetChunk(0, 0, size, size);
-        double[][] humidities = humidityNoise.GetChunk(0, 0, size, size);
-        double[][] heights = heightNoise.GetChunk(0, 0, size, size);
+        Task<double[][]> temperaturesTask = temperatureNoise.GetChunkAsync(0, 0, size, size);
+        Task<double[][]> humiditiesTask = humidityNoise.GetChunkAsync(0, 0, size, size);
+        Task<double[][]> heightsTask = heightNoise.GetChunkAsync(0, 0, size, size);
+        double[][] temperatures = await temperaturesTask.ConfigureAwait(false);
+        double[][] humidities = await humiditiesTask.ConfigureAwait(false);
+        double[][] heights = await heightsTask.ConfigureAwait(false);
         SaveAsImage(temperatures, $"{time:yyyy-MM-dd-HH-mm-ss}-heatmap.png", Turbo);
         SaveAsImage(humidities, $"{time:yyyy-MM-dd-HH-mm-ss}-humidity.png", Turbo);
         SaveAsImage(heights, $"{time:yyyy-MM-dd-HH-mm-ss}-height.png", Grayscale);
@@ -162,7 +166,7 @@ public static class Program
     }
 
     [SupportedOSPlatform("windows")]
-    private static void SimpleExample()
+    private static async Task SimpleExampleAsync()
     {
         const int size = 2560;
         const int sizeHalf = size / 2;
@@ -173,7 +177,7 @@ public static class Program
             .Shift(-sizeHalf, -sizeHalf)
             .Normalize()
             .ApplySigmoid(4, 8);
-        double[][] data = noise.GetChunk(0, 0, size, size);
+        double[][] data = await noise.GetChunkAsync(0, 0, size, size);
         SaveAsImage(data, $"{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.png", Turbo);
     }
 

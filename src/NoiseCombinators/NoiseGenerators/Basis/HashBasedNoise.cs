@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using NoiseCombinators.Hashing;
 
 namespace NoiseCombinators.NoiseGenerators.Basis;
@@ -88,4 +89,14 @@ public abstract class HashBasedNoise : NoiseBase, ISeeded
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public sealed override double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
         => GetChunkWithSeed(Seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public sealed override Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => GetChunkWithSeedAsync(Seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public sealed override Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Task.Run(() => GetChunkWithSeed(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY));
 }

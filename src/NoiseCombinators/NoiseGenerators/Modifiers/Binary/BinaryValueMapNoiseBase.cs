@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace NoiseCombinators.NoiseGenerators.Modifiers.Binary;
 
@@ -37,6 +38,30 @@ public abstract class BinaryValueMapNoiseBase : BinaryNoiseBase
     {
         double[][] result1 = SourceLeft.GetChunk(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
         double[][] result2 = SourceRight.GetChunk(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        CombineResults(result1, result2, stepsX, stepsY);
+        return result1;
+    }
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override sealed async Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    {
+        Task<double[][]> t1 = SourceLeft.GetChunkWithSeedAsync(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        Task<double[][]> t2 = SourceRight.GetChunkWithSeedAsync(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        double[][] result1 = await t1.ConfigureAwait(false);
+        double[][] result2 = await t2.ConfigureAwait(false);
+        CombineResults(result1, result2, stepsX, stepsY);
+        return result1;
+    }
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override sealed async Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    {
+        Task<double[][]> t1 = SourceLeft.GetChunkAsync(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        Task<double[][]> t2 = SourceRight.GetChunkAsync(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        double[][] result1 = await t1.ConfigureAwait(false);
+        double[][] result2 = await t2.ConfigureAwait(false);
         CombineResults(result1, result2, stepsX, stepsY);
         return result1;
     }

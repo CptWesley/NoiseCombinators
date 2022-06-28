@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace NoiseCombinators.NoiseGenerators.Modifiers.Unary;
 
@@ -44,4 +45,14 @@ public sealed class ScaledNoise : UnaryNoiseBase
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override sealed double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
         => Source.GetChunk(x * scaleXInv, y * scaleYInv, stepsX, stepsY, stepSizeX * scaleXInv, stepSizeY * scaleYInv);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override sealed Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkWithSeedAsync(seed, x * scaleXInv, y * scaleYInv, stepsX, stepsY, stepSizeX * scaleXInv, stepSizeY * scaleYInv);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override sealed Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkAsync(x * scaleXInv, y * scaleYInv, stepsX, stepsY, stepSizeX * scaleXInv, stepSizeY * scaleYInv);
 }

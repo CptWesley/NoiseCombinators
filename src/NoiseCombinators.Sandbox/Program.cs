@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace NoiseCombinators.Sandbox;
 
@@ -15,11 +16,18 @@ public static class Program
 {
     public static void Main()
     {
-        //SimpleExample();
-        BiomeExample();
-
+        if (OperatingSystem.IsWindows())
+        {
+            //SimpleExample();
+            BiomeExample();
+        }
+        else
+        {
+            Console.WriteLine("Unable to create image on OS that is not Windows.");
+        }
     }
 
+    [SupportedOSPlatform("windows")]
     private static void BiomeExample()
     {
         const int size = 2560;
@@ -27,7 +35,7 @@ public static class Program
         const double scale = 125;
         INoise noise = new BicubicNoise()
             .Scale(scale)
-            //.Shift(-sizeHalf, -sizeHalf)
+            .Shift(-sizeHalf, -sizeHalf)
             .Normalize()
             .ApplySigmoid(4, 8);
         INoise temperatureNoise = noise.Scale(2).WithSeed(42)
@@ -49,7 +57,6 @@ public static class Program
             .Add(noise.Scale(0.1).WithSeed(46).Multiply(0.25))
             .Normalize()
             .Apply(x => Math.Pow(x, 1.5), 0, 1)
-            //.ApplySigmoid(4, 4)
             .ApplyKernelFilter(Kernels.Gaussian5);
         DateTime time = DateTime.Now;
         double[][] temperatures = temperatureNoise.GetChunk(0, 0, size, size);
@@ -150,6 +157,7 @@ public static class Program
         SaveAsImage(biomes, $"{time:yyyy-MM-dd-HH-mm-ss}-detail.png", biomeMap, heights);
     }
 
+    [SupportedOSPlatform("windows")]
     private static void SimpleExample()
     {
         const int size = 2560;
@@ -165,7 +173,8 @@ public static class Program
         SaveAsImage(data, $"{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.png", Turbo);
     }
 
-    private static void SaveAsImage(byte[][] data, string fileName, Color[] colorMap, double[][] intensities = null)
+    [SupportedOSPlatform("windows")]
+    private static void SaveAsImage(byte[][] data, string fileName, Color[] colorMap, double[][]? intensities = null)
     {
         int width = data.Length;
         int height = data[0].Length;
@@ -200,6 +209,7 @@ public static class Program
         imgGcHandle.Free();
     }
 
+    [SupportedOSPlatform("windows")]
     private static void SaveAsImage(double[][] data, string fileName, Color[] colorMap)
     {
         int width = data.Length;

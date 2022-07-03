@@ -57,7 +57,7 @@ public static class Program
             .Add(noise.Scale(0.1).WithSeed(46).Multiply(0.25))
             .Normalize()
             .Apply(x => Math.Pow(x, 1.5), 0, 1)
-            .ApplyKernelFilter(Kernels.Gaussian5);
+            .ApplyKernelFilter(Kernels.Gaussian2D5);
         DateTime time = DateTime.Now;
         Task<double[][]> temperaturesTask = temperatureNoise.GetChunkAsync(0, 0, size, size);
         Task<double[][]> humiditiesTask = humidityNoise.GetChunkAsync(0, 0, size, size);

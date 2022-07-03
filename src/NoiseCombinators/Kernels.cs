@@ -8,7 +8,7 @@ public static class Kernels
     /// <summary>
     /// Gets a discrete 3x3 Gaussian kernel.
     /// </summary>
-    public static readonly Kernel Gaussian3 = new Kernel(
+    public static readonly Kernel2D Gaussian2D3 = new Kernel2D(
         new double[][]
         {
             new double[] { 1, 2, 1 },
@@ -20,7 +20,7 @@ public static class Kernels
     /// <summary>
     /// Gets a discrete 5x5 Gaussian kernel.
     /// </summary>
-    public static readonly Kernel Gaussian5 = new Kernel(
+    public static readonly Kernel2D Gaussian2D5 = new Kernel2D(
         new double[][]
         {
             new double[] { 1,  4,  7,  4, 1 },
@@ -34,7 +34,7 @@ public static class Kernels
     /// <summary>
     /// Gets a discrete 7x7 Gaussian kernel.
     /// </summary>
-    public static readonly Kernel Gaussian7 = new Kernel(
+    public static readonly Kernel2D Gaussian2D7 = new Kernel2D(
         new double[][]
         {
             new double[] { 0,  0,  1,   2,  1,  0, 0 },

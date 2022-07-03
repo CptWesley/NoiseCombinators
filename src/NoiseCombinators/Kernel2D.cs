@@ -6,16 +6,16 @@ namespace NoiseCombinators;
 /// <summary>
 /// Provides logic for kernels.
 /// </summary>
-public sealed class Kernel
+public sealed class Kernel2D
 {
     private readonly double[] raw;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Kernel"/> class.
+    /// Initializes a new instance of the <see cref="Kernel2D"/> class.
     /// </summary>
     /// <param name="kernel">The kernel.</param>
     /// <param name="divisor">The divisor.</param>
-    public Kernel(double[][] kernel, double divisor)
+    public Kernel2D(double[][] kernel, double divisor)
     {
         raw = CopyKernel(kernel);
         Divisor = divisor;

@@ -18,7 +18,7 @@ public sealed class KernelFilterNoise2D : UnaryNoiseBase2D
     /// </summary>
     /// <param name="source">The base noise generator.</param>
     /// <param name="kernel">The kernel to apply.</param>
-    public KernelFilterNoise2D(INoise2D source, Kernel kernel)
+    public KernelFilterNoise2D(INoise2D source, Kernel2D kernel)
         : base(source)
     {
         Kernel = kernel;
@@ -45,7 +45,7 @@ public sealed class KernelFilterNoise2D : UnaryNoiseBase2D
     /// <summary>
     /// Gets the kernel.
     /// </summary>
-    public Kernel Kernel { get; }
+    public Kernel2D Kernel { get; }
 
     /// <inheritdoc/>
     public override sealed double Min { get; }

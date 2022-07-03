@@ -47,12 +47,12 @@ public abstract class NoiseBase2D : INoise2D
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSize)
-        => Task.Run(() => GetChunkWithSeed(seed, x, y, stepsX, stepsY, stepSize));
+        => GetChunkWithSeedAsync(seed, x, y, stepsX, stepsY, stepSize, stepSize);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY)
-        => Task.Run(() => GetChunkWithSeed(seed, x, y, stepsX, stepsY));
+        => GetChunkWithSeedAsync(seed, x, y, stepsX, stepsY, 1);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -61,10 +61,10 @@ public abstract class NoiseBase2D : INoise2D
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSize)
-        => Task.Run(() => GetChunk(x, y, stepsX, stepsY, stepSize));
+        => GetChunkAsync(x, y, stepsX, stepsY, stepSize, stepSize);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY)
-        => Task.Run(() => GetChunk(x, y, stepsX, stepsY));
+        => GetChunkAsync(x, y, stepsX, stepsY, 1);
 }

@@ -36,10 +36,10 @@ public sealed class TricubicNoise3D : TricubicNoiseBase3D
     }
 
     /// <inheritdoc/>
-    public override double Max => 1.625;
+    public override double Max => 2.1875;
 
     /// <inheritdoc/>
-    public override double Min => -0.625;
+    public override double Min => -1.1875;
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

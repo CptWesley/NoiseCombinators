@@ -36,14 +36,6 @@ public sealed class NearestNeighborNoise : HashBasedNoise
     }
 
     /// <inheritdoc/>
-    public override double GetWithSeed(int seed, double x, double y)
-    {
-        int xLow = BitUtilities.FastFloor(x);
-        int yLow = BitUtilities.FastFloor(y);
-        return GetHashValue(seed, xLow, yLow);
-    }
-
-    /// <inheritdoc/>
     public override double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
         int iStepsX = BitUtilities.FastCeiling(stepsX * stepSizeX) + 1;

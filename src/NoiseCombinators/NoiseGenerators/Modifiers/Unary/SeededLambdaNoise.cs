@@ -27,21 +27,21 @@ public sealed class SeededLambdaNoise : UnaryNoiseBase
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override sealed double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
-        => Source.GetChunkWithSeed(Lambda(seed), x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+    public override sealed double[][] GetChunkWithSeed2D(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkWithSeed2D(Lambda(seed), x, y, stepsX, stepsY, stepSizeX, stepSizeY);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override sealed double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    public override sealed double[][] GetChunk2D(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
         => throw new InvalidOperationException($"Attempted to alter seed which was not provided before. Consider using '.WithSeed(..)' with a fixed seed on this noise generator or on a noise generator containing this noise generator.");
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override sealed Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
-        => Source.GetChunkWithSeedAsync(Lambda(seed), x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+    public override sealed Task<double[][]> GetChunkWithSeed2DAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkWithSeed2DAsync(Lambda(seed), x, y, stepsX, stepsY, stepSizeX, stepSizeY);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override sealed Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    public override sealed Task<double[][]> GetChunk2DAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
         => throw new InvalidOperationException($"Attempted to alter seed which was not provided before. Consider using '.WithSeed(..)' with a fixed seed on this noise generator or on a noise generator containing this noise generator.");
 }

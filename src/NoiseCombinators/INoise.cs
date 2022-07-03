@@ -28,7 +28,7 @@ public interface INoise
     /// <param name="stepSizeX">The size of each step in the x-axis.</param>
     /// <param name="stepSizeY">The size of each step in the y-axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY);
+    public double[][] GetChunkWithSeed2D(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -40,7 +40,7 @@ public interface INoise
     /// <param name="stepsY">The number of steps to take in the y-axis.</param>
     /// <param name="stepSize">The size of each step in each axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSize);
+    public double[][] GetChunkWithSeed2D(int seed, double x, double y, int stepsX, int stepsY, double stepSize);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -51,7 +51,7 @@ public interface INoise
     /// <param name="stepsX">The number of steps to take in the x-axis.</param>
     /// <param name="stepsY">The number of steps to take in the y-axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY);
+    public double[][] GetChunkWithSeed2D(int seed, double x, double y, int stepsX, int stepsY);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -63,7 +63,7 @@ public interface INoise
     /// <param name="stepSizeX">The size of each step in the x-axis.</param>
     /// <param name="stepSizeY">The size of each step in the y-axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY);
+    public double[][] GetChunk2D(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -74,7 +74,7 @@ public interface INoise
     /// <param name="stepsY">The number of steps to take in the y-axis.</param>
     /// <param name="stepSize">The size of each step in each axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSize);
+    public double[][] GetChunk2D(double x, double y, int stepsX, int stepsY, double stepSize);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -84,7 +84,7 @@ public interface INoise
     /// <param name="stepsX">The number of steps to take in the x-axis.</param>
     /// <param name="stepsY">The number of steps to take in the y-axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public double[][] GetChunk(double x, double y, int stepsX, int stepsY);
+    public double[][] GetChunk2D(double x, double y, int stepsX, int stepsY);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -97,7 +97,7 @@ public interface INoise
     /// <param name="stepSizeX">The size of each step in the x-axis.</param>
     /// <param name="stepSizeY">The size of each step in the y-axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY);
+    public Task<double[][]> GetChunkWithSeed2DAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -109,7 +109,7 @@ public interface INoise
     /// <param name="stepsY">The number of steps to take in the y-axis.</param>
     /// <param name="stepSize">The size of each step in each axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSize);
+    public Task<double[][]> GetChunkWithSeed2DAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSize);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -120,7 +120,7 @@ public interface INoise
     /// <param name="stepsX">The number of steps to take in the x-axis.</param>
     /// <param name="stepsY">The number of steps to take in the y-axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY);
+    public Task<double[][]> GetChunkWithSeed2DAsync(int seed, double x, double y, int stepsX, int stepsY);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -132,7 +132,7 @@ public interface INoise
     /// <param name="stepSizeX">The size of each step in the x-axis.</param>
     /// <param name="stepSizeY">The size of each step in the y-axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY);
+    public Task<double[][]> GetChunk2DAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -143,7 +143,7 @@ public interface INoise
     /// <param name="stepsY">The number of steps to take in the y-axis.</param>
     /// <param name="stepSize">The size of each step in each axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSize);
+    public Task<double[][]> GetChunk2DAsync(double x, double y, int stepsX, int stepsY, double stepSize);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -153,5 +153,5 @@ public interface INoise
     /// <param name="stepsX">The number of steps to take in the x-axis.</param>
     /// <param name="stepsY">The number of steps to take in the y-axis.</param>
     /// <returns>The generated noise chunk.</returns>
-    public Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY);
+    public Task<double[][]> GetChunk2DAsync(double x, double y, int stepsX, int stepsY);
 }

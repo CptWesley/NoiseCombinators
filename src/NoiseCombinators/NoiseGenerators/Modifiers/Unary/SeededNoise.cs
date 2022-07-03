@@ -24,21 +24,21 @@ public sealed class SeededNoise : UnaryNoiseBase, ISeeded
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override sealed double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
-        => Source.GetChunkWithSeed(Seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+    public override sealed double[][] GetChunkWithSeed2D(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkWithSeed2D(Seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override sealed double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
-        => Source.GetChunkWithSeed(Seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+    public override sealed double[][] GetChunk2D(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkWithSeed2D(Seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override sealed Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
-        => Source.GetChunkWithSeedAsync(Seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+    public override sealed Task<double[][]> GetChunkWithSeed2DAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkWithSeed2DAsync(Seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override sealed Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
-        => Source.GetChunkWithSeedAsync(Seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+    public override sealed Task<double[][]> GetChunk2DAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkWithSeed2DAsync(Seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
 }

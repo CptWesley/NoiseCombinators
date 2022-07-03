@@ -18,15 +18,6 @@ public interface INoise2D
     public double Max { get; }
 
     /// <summary>
-    /// Gets the value at the given coordinates.
-    /// </summary>
-    /// <param name="seed">The seed to use for generating the noise.</param>
-    /// <param name="x">The x-coordinate.</param>
-    /// <param name="y">The y-coordinate.</param>
-    /// <returns>The value at the given coordinate.</returns>
-    public double GetWithSeed(int seed, double x, double y);
-
-    /// <summary>
     /// Gets a chunk of values at the given coordinates.
     /// </summary>
     /// <param name="seed">The seed to use for generating the noise.</param>
@@ -63,14 +54,6 @@ public interface INoise2D
     public double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY);
 
     /// <summary>
-    /// Gets the value at the given coordinates.
-    /// </summary>
-    /// <param name="x">The x-coordinate.</param>
-    /// <param name="y">The y-coordinate.</param>
-    /// <returns>The value at the given coordinate.</returns>
-    public double Get(double x, double y);
-
-    /// <summary>
     /// Gets a chunk of values at the given coordinates.
     /// </summary>
     /// <param name="x">The starting x-coordinate.</param>
@@ -102,15 +85,6 @@ public interface INoise2D
     /// <param name="stepsY">The number of steps to take in the y-axis.</param>
     /// <returns>The generated noise chunk.</returns>
     public double[][] GetChunk(double x, double y, int stepsX, int stepsY);
-
-    /// <summary>
-    /// Gets the value at the given coordinates.
-    /// </summary>
-    /// <param name="seed">The seed to use for generating the noise.</param>
-    /// <param name="x">The x-coordinate.</param>
-    /// <param name="y">The y-coordinate.</param>
-    /// <returns>The value at the given coordinate.</returns>
-    public Task<double> GetWithSeedAsync(int seed, double x, double y);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.
@@ -147,14 +121,6 @@ public interface INoise2D
     /// <param name="stepsY">The number of steps to take in the y-axis.</param>
     /// <returns>The generated noise chunk.</returns>
     public Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY);
-
-    /// <summary>
-    /// Gets the value at the given coordinates.
-    /// </summary>
-    /// <param name="x">The x-coordinate.</param>
-    /// <param name="y">The y-coordinate.</param>
-    /// <returns>The value at the given coordinate.</returns>
-    public Task<double> GetAsync(double x, double y);
 
     /// <summary>
     /// Gets a chunk of values at the given coordinates.

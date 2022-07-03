@@ -33,21 +33,21 @@ public sealed class ShiftedNoise : UnaryNoiseBase
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override double[][] GetChunkWithSeed2D(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
-        => Source.GetChunkWithSeed2D(seed, x + ShiftX, y + ShiftY, stepsX, stepsY, stepSizeX, stepSizeY);
+    public override double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkWithSeed(seed, x + ShiftX, y + ShiftY, stepsX, stepsY, stepSizeX, stepSizeY);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override double[][] GetChunk2D(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
-        => Source.GetChunk2D(x + ShiftX, y + ShiftY, stepsX, stepsY, stepSizeX, stepSizeY);
+    public override double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunk(x + ShiftX, y + ShiftY, stepsX, stepsY, stepSizeX, stepSizeY);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override Task<double[][]> GetChunkWithSeed2DAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
-        => Source.GetChunkWithSeed2DAsync(seed, x + ShiftX, y + ShiftY, stepsX, stepsY, stepSizeX, stepSizeY);
+    public override Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkWithSeedAsync(seed, x + ShiftX, y + ShiftY, stepsX, stepsY, stepSizeX, stepSizeY);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override Task<double[][]> GetChunk2DAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
-        => Source.GetChunk2DAsync(x + ShiftX, y + ShiftY, stepsX, stepsY, stepSizeX, stepSizeY);
+    public override Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+        => Source.GetChunkAsync(x + ShiftX, y + ShiftY, stepsX, stepsY, stepSizeX, stepSizeY);
 }

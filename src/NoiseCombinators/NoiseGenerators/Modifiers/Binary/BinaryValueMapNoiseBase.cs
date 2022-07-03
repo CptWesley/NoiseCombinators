@@ -25,29 +25,29 @@ public abstract class BinaryValueMapNoiseBase : BinaryNoiseBase
     public override abstract double Max { get; }
 
     /// <inheritdoc/>
-    public override sealed double[][] GetChunkWithSeed2D(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    public override sealed double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
-        double[][] result1 = SourceLeft.GetChunkWithSeed2D(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
-        double[][] result2 = SourceRight.GetChunkWithSeed2D(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        double[][] result1 = SourceLeft.GetChunkWithSeed(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        double[][] result2 = SourceRight.GetChunkWithSeed(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
         CombineResults(result1, result2, stepsX, stepsY);
         return result1;
     }
 
     /// <inheritdoc/>
-    public override sealed double[][] GetChunk2D(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    public override sealed double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
-        double[][] result1 = SourceLeft.GetChunk2D(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
-        double[][] result2 = SourceRight.GetChunk2D(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        double[][] result1 = SourceLeft.GetChunk(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        double[][] result2 = SourceRight.GetChunk(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
         CombineResults(result1, result2, stepsX, stepsY);
         return result1;
     }
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override sealed async Task<double[][]> GetChunkWithSeed2DAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    public override sealed async Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
-        Task<double[][]> t1 = SourceLeft.GetChunkWithSeed2DAsync(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
-        Task<double[][]> t2 = SourceRight.GetChunkWithSeed2DAsync(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        Task<double[][]> t1 = SourceLeft.GetChunkWithSeedAsync(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        Task<double[][]> t2 = SourceRight.GetChunkWithSeedAsync(seed, x, y, stepsX, stepsY, stepSizeX, stepSizeY);
         double[][] result1 = await t1.ConfigureAwait(false);
         double[][] result2 = await t2.ConfigureAwait(false);
         CombineResults(result1, result2, stepsX, stepsY);
@@ -56,10 +56,10 @@ public abstract class BinaryValueMapNoiseBase : BinaryNoiseBase
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public override sealed async Task<double[][]> GetChunk2DAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    public override sealed async Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
-        Task<double[][]> t1 = SourceLeft.GetChunk2DAsync(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
-        Task<double[][]> t2 = SourceRight.GetChunk2DAsync(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        Task<double[][]> t1 = SourceLeft.GetChunkAsync(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
+        Task<double[][]> t2 = SourceRight.GetChunkAsync(x, y, stepsX, stepsY, stepSizeX, stepSizeY);
         double[][] result1 = await t1.ConfigureAwait(false);
         double[][] result2 = await t2.ConfigureAwait(false);
         CombineResults(result1, result2, stepsX, stepsY);

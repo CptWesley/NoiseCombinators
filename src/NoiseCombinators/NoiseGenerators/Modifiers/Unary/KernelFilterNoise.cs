@@ -54,50 +54,50 @@ public sealed class KernelFilterNoise : UnaryNoiseBase
     public override sealed double Max { get; }
 
     /// <inheritdoc/>
-    public override sealed double[][] GetChunkWithSeed2D(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    public override sealed double[][] GetChunkWithSeed(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
         double newStartX = x - (extraWidth * stepSizeX);
         double newStartY = y - (extraHeight * stepSizeY);
         int newStepsX = stepsX + extraWidth2;
         int newStepsY = stepsY + extraHeight2;
 
-        double[][] values = Source.GetChunkWithSeed2D(seed, newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY);
+        double[][] values = Source.GetChunkWithSeed(seed, newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY);
         return Apply(values, stepsX, stepsY);
     }
 
     /// <inheritdoc/>
-    public override sealed double[][] GetChunk2D(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    public override sealed double[][] GetChunk(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
         double newStartX = x - (extraWidth * stepSizeX);
         double newStartY = y - (extraHeight * stepSizeY);
         int newStepsX = stepsX + extraWidth2;
         int newStepsY = stepsY + extraHeight2;
 
-        double[][] values = Source.GetChunk2D(newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY);
+        double[][] values = Source.GetChunk(newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY);
         return Apply(values, stepsX, stepsY);
     }
 
     /// <inheritdoc/>
-    public override sealed async Task<double[][]> GetChunkWithSeed2DAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    public override sealed async Task<double[][]> GetChunkWithSeedAsync(int seed, double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
         double newStartX = x - (extraWidth * stepSizeX);
         double newStartY = y - (extraHeight * stepSizeY);
         int newStepsX = stepsX + extraWidth2;
         int newStepsY = stepsY + extraHeight2;
 
-        double[][] values = await Source.GetChunkWithSeed2DAsync(seed, newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY).ConfigureAwait(false);
+        double[][] values = await Source.GetChunkWithSeedAsync(seed, newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY).ConfigureAwait(false);
         return Apply(values, stepsX, stepsY);
     }
 
     /// <inheritdoc/>
-    public override sealed async Task<double[][]> GetChunk2DAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
+    public override sealed async Task<double[][]> GetChunkAsync(double x, double y, int stepsX, int stepsY, double stepSizeX, double stepSizeY)
     {
         double newStartX = x - (extraWidth * stepSizeX);
         double newStartY = y - (extraHeight * stepSizeY);
         int newStepsX = stepsX + extraWidth2;
         int newStepsY = stepsY + extraHeight2;
 
-        double[][] values = await Source.GetChunk2DAsync(newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY).ConfigureAwait(false);
+        double[][] values = await Source.GetChunkAsync(newStartX, newStartY, newStepsX, newStepsY, stepSizeX, stepSizeY).ConfigureAwait(false);
         return Apply(values, stepsX, stepsY);
     }
 

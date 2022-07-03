@@ -64,9 +64,9 @@ public static class Program
             .Apply(x => Math.Pow(x, 1.5), 0, 1)
             .ApplyKernelFilter(Kernels.Gaussian5);
         DateTime time = DateTime.Now;
-        Task<double[][]> temperaturesTask = temperatureNoise.GetChunk2DAsync(0, 0, size, size);
-        Task<double[][]> humiditiesTask = humidityNoise.GetChunk2DAsync(0, 0, size, size);
-        Task<double[][]> heightsTask = heightNoise.GetChunk2DAsync(0, 0, size, size);
+        Task<double[][]> temperaturesTask = temperatureNoise.GetChunkAsync(0, 0, size, size);
+        Task<double[][]> humiditiesTask = humidityNoise.GetChunkAsync(0, 0, size, size);
+        Task<double[][]> heightsTask = heightNoise.GetChunkAsync(0, 0, size, size);
         double[][] temperatures = await temperaturesTask.ConfigureAwait(false);
         double[][] humidities = await humiditiesTask.ConfigureAwait(false);
         double[][] heights = await heightsTask.ConfigureAwait(false);
@@ -177,7 +177,7 @@ public static class Program
             .Shift(-sizeHalf, -sizeHalf)
             .Normalize()
             .ApplySigmoid(4, 8);
-        double[][] data = await noise.GetChunk2DAsync(0, 0, size, size);
+        double[][] data = await noise.GetChunkAsync(0, 0, size, size);
         SaveAsImage(data, $"{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.png", Turbo);
     }
 

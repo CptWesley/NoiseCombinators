@@ -36,10 +36,35 @@ public sealed class XXHash : Hashing64
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override ulong HashU64WithSeed(int seed, ulong value)
     {
-        ulong acc = PrimeU64v5 + unchecked((ulong)seed);
+        ulong acc = PrimeU64v5 + unchecked((ulong)seed) + 8;
 
         ulong accn = acc + (value * PrimeU64v2);
         acc ^= BitUtilities.RotateLeft(accn, 31) * PrimeU64v1;
+        acc = BitUtilities.RotateLeft(acc, 27) * PrimeU64v1;
+        acc += PrimeU64v4;
+
+        acc ^= acc >> 33;
+        acc *= PrimeU64v2;
+        acc ^= acc >> 29;
+        acc *= PrimeU64v3;
+        acc ^= acc >> 32;
+
+        return acc;
+    }
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public override ulong HashU64WithSeed(int seed, ulong value1, ulong value2)
+    {
+        ulong acc = PrimeU64v5 + unchecked((ulong)seed) + 16;
+
+        ulong accn1 = acc + (value1 * PrimeU64v2);
+        acc ^= BitUtilities.RotateLeft(accn1, 31) * PrimeU64v1;
+        acc = BitUtilities.RotateLeft(acc, 27) * PrimeU64v1;
+        acc += PrimeU64v4;
+
+        ulong accn2 = acc + (value2 * PrimeU64v2);
+        acc ^= BitUtilities.RotateLeft(accn2, 31) * PrimeU64v1;
         acc = BitUtilities.RotateLeft(acc, 27) * PrimeU64v1;
         acc += PrimeU64v4;
 

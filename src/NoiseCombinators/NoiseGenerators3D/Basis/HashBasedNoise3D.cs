@@ -1,7 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using NoiseCombinators.Hashing;
-using NoiseCombinators.Internal;
 
 namespace NoiseCombinators.NoiseGenerators3D.Basis;
 
@@ -44,10 +43,9 @@ public abstract class HashBasedNoise3D : NoiseBase3D, ISeeded
     {
         ulong ly = (ulong)unchecked((uint)y) << 32;
         ulong lx = unchecked((uint)x);
+        ulong lz = unchecked((uint)z);
 
-        ulong input = BitUtilities.RotateLeft(ly + lx, z);
-
-        ulong h = Hashing.HashU64WithSeed(seed, input);
+        ulong h = Hashing.HashU64WithSeed(seed, lx + ly, lz);
         double result = h / (double)ulong.MaxValue;
 
         if (result < 0)

@@ -35,4 +35,12 @@ public abstract class Hashing64 : IHashing64
 
     /// <inheritdoc/>
     public abstract ulong HashU64WithSeed(int seed, ulong value);
+
+    /// <inheritdoc/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public virtual ulong HashU64(ulong value1, ulong value2)
+        => HashU64WithSeed(Seed, value1, value2);
+
+    /// <inheritdoc/>
+    public abstract ulong HashU64WithSeed(int seed, ulong value1, ulong value2);
 }

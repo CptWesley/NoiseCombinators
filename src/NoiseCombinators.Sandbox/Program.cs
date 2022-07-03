@@ -1,13 +1,8 @@
-﻿using NoiseCombinators.Hashing;
-using NoiseCombinators.NoiseGenerators;
-using NoiseCombinators.NoiseGenerators.Basis;
+﻿using NoiseCombinators.NoiseGenerators2D.Basis;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Threading.Tasks;
@@ -38,18 +33,18 @@ public static class Program
         const int size = 2560;
         const int sizeHalf = size / 2;
         const double scale = 125;
-        INoise noise = new BicubicNoise()
+        INoise2D noise = new BicubicNoise2D()
             .Scale(scale)
             .Shift(-sizeHalf, -sizeHalf)
             .Normalize()
             .ApplySigmoid(4, 8);
-        INoise temperatureNoise = noise.Scale(2).WithSeed(42)
+        INoise2D temperatureNoise = noise.Scale(2).WithSeed(42)
             .Add(noise.Scale(1).WithSeed(49).Multiply(0.5))
             .Add(noise.Scale(0.5).WithSeed(50).Multiply(0.25))
             .Add(noise.Scale(0.25).WithSeed(51).Multiply(0.125))
             .Normalize()
             .ApplySigmoid(2, 2);
-        INoise humidityNoise = noise.Scale(2).WithSeed(43)
+        INoise2D humidityNoise = noise.Scale(2).WithSeed(43)
             .Add(noise.Scale(1).WithSeed(47).Multiply(0.5))
             .Add(noise.Scale(0.5).WithSeed(48).Multiply(0.25))
             .Add(noise.Scale(0.25).WithSeed(52).Multiply(0.125))
@@ -57,7 +52,7 @@ public static class Program
             .Apply(x => x * x, 0, 1)
             .ApplySigmoid(2, 2)
             .Invert();
-        INoise heightNoise = noise.Scale(0.4).WithSeed(44)
+        INoise2D heightNoise = noise.Scale(0.4).WithSeed(44)
             .Add(noise.Scale(0.2).WithSeed(45).Multiply(0.5))
             .Add(noise.Scale(0.1).WithSeed(46).Multiply(0.25))
             .Normalize()
@@ -171,7 +166,7 @@ public static class Program
         const int size = 2560;
         const int sizeHalf = size / 2;
         const double scale = 5;
-        INoise noise = new BicubicNoise()
+        INoise2D noise = new BicubicNoise2D()
             .WithSeed(42)
             .Scale(scale)
             .Shift(-sizeHalf, -sizeHalf)

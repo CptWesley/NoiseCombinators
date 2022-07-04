@@ -15,14 +15,14 @@
 		<Version>1.0-preview1</Version>
 		<Copyright></Copyright>
 		<PackageIconUrl>https://raw.githubusercontent.com/CptWesley/NoiseCombinators/master/logo_128x128.png</PackageIconUrl>
-		<PackageIcon>logo_128x128.png</PackageIcon>
+		<!--<PackageIcon>logo_128x128.png</PackageIcon>-->
 		<LangVersion>10</LangVersion>
 		<Nullable>enable</Nullable>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="../../logo_128x128.png" Pack="true" Visible="false" PackagePath="" />
+		<!--<None Include="../../logo_128x128.png" Pack="true" Visible="false" PackagePath="" />-->
 		<AdditionalFiles Include="../stylecop.json" Link="stylecop.json" />
 	</ItemGroup>
 

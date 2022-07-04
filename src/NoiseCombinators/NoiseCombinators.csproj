@@ -14,7 +14,7 @@
 		<FileVersion>$(Version)</FileVersion>
 		<Version>1.0-preview1</Version>
 		<Copyright></Copyright>
-		<PackageIconUrl>https://raw.githubusercontent.com/CptWesley/NoiseCombinators/master/logo_128x128.png</PackageIconUrl>
+		<!--<PackageIconUrl>https://raw.githubusercontent.com/CptWesley/NoiseCombinators/master/logo_128x128.png</PackageIconUrl>-->
 		<!--<PackageIcon>logo_128x128.png</PackageIcon>-->
 		<LangVersion>10</LangVersion>
 		<Nullable>enable</Nullable>

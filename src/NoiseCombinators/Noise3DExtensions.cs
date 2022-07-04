@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using NoiseCombinators.NoiseGenerators2D.Modifiers.Binary;
-using NoiseCombinators.NoiseGenerators2D.Modifiers.Unary;
+using NoiseCombinators.NoiseGenerators3D.Modifiers.Binary;
+using NoiseCombinators.NoiseGenerators3D.Modifiers.Unary;
 
 namespace NoiseCombinators;
 
 /// <summary>
 /// Provides extension methods for building noise generators.
 /// </summary>
-public static class NoiseExtensions
+public static class Noise3DExtensions
 {
     /// <summary>
     /// Changes the range of the given noise generator.
@@ -19,7 +19,7 @@ public static class NoiseExtensions
     /// <param name="max">The new maximum value.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D SetRange(this INoise2D noise, double min, double max)
+    public static INoise3D SetRange(this INoise3D noise, double min, double max)
         => noise.SetRange(n => min, n => max);
 
     /// <summary>
@@ -30,8 +30,8 @@ public static class NoiseExtensions
     /// <param name="max">A function to compute the new maximum value.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D SetRange(this INoise2D noise, Func<INoise2D, double> min, Func<INoise2D, double> max)
-        => new RangedNoise2D(noise, min(noise), max(noise));
+    public static INoise3D SetRange(this INoise3D noise, Func<INoise3D, double> min, Func<INoise3D, double> max)
+        => new RangedNoise3D(noise, min(noise), max(noise));
 
     /// <summary>
     /// Changes the minimum of the given noise generator.
@@ -40,7 +40,7 @@ public static class NoiseExtensions
     /// <param name="min">A function to compute the new minimum value.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D SetMin(this INoise2D noise, Func<INoise2D, double> min)
+    public static INoise3D SetMin(this INoise3D noise, Func<INoise3D, double> min)
         => noise.SetRange(n => min(n), n => n.Max);
 
     /// <summary>
@@ -50,7 +50,7 @@ public static class NoiseExtensions
     /// <param name="min">A function to compute the new minimum value.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D SetMin(this INoise2D noise, double min)
+    public static INoise3D SetMin(this INoise3D noise, double min)
         => noise.SetMin(n => min);
 
     /// <summary>
@@ -60,7 +60,7 @@ public static class NoiseExtensions
     /// <param name="max">A function to compute the new maximum value.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D SetMax(this INoise2D noise, Func<INoise2D, double> max)
+    public static INoise3D SetMax(this INoise3D noise, Func<INoise3D, double> max)
         => noise.SetRange(n => n.Min, n => max(n));
 
     /// <summary>
@@ -70,7 +70,7 @@ public static class NoiseExtensions
     /// <param name="max">A function to compute the new maximum value.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D SetMax(this INoise2D noise, double max)
+    public static INoise3D SetMax(this INoise3D noise, double max)
         => noise.SetMax(n => max);
 
     /// <summary>
@@ -79,18 +79,8 @@ public static class NoiseExtensions
     /// <param name="noise">The noise generator.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Normalize(this INoise2D noise)
+    public static INoise3D Normalize(this INoise3D noise)
         => noise.SetRange(0, 1);
-
-    /// <summary>
-    /// Applies a kernel filter to the given noise generator.
-    /// </summary>
-    /// <param name="noise">The noise generator.</param>
-    /// <param name="kernel">The kernel to apply.</param>
-    /// <returns>The modified noise generator.</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D ApplyKernelFilter(this INoise2D noise, Kernel2D kernel)
-        => new KernelFilterNoise2D(noise, kernel);
 
     /// <summary>
     /// Modifies the scale of the given noise generator.
@@ -98,10 +88,11 @@ public static class NoiseExtensions
     /// <param name="noise">The noise generator.</param>
     /// <param name="scaleX">The scale modifier to apply on the x-axis.</param>
     /// <param name="scaleY">The scale modifier to apply on the y-axis.</param>
+    /// <param name="scaleZ">The scale modifier to apply on the z-axis.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Scale(this INoise2D noise, double scaleX, double scaleY)
-        => new ScaledNoise2D(noise, scaleX, scaleY);
+    public static INoise3D Scale(this INoise3D noise, double scaleX, double scaleY, double scaleZ)
+        => new ScaledNoise3D(noise, scaleX, scaleY, scaleZ);
 
     /// <summary>
     /// Modifies the scale of the given noise generator.
@@ -110,8 +101,8 @@ public static class NoiseExtensions
     /// <param name="scale">The scale modifier to apply on the x-axis.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Scale(this INoise2D noise, double scale)
-        => noise.Scale(scale, scale);
+    public static INoise3D Scale(this INoise3D noise, double scale)
+        => noise.Scale(scale, scale, scale);
 
     /// <summary>
     /// Changes the range of the given noise generator by clamping.
@@ -121,7 +112,7 @@ public static class NoiseExtensions
     /// <param name="max">The new maximum value.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Clamp(this INoise2D noise, double min, double max)
+    public static INoise3D Clamp(this INoise3D noise, double min, double max)
         => noise.Clamp(n => min, n => max);
 
     /// <summary>
@@ -132,8 +123,8 @@ public static class NoiseExtensions
     /// <param name="max">A function to compute the new maximum value.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Clamp(this INoise2D noise, Func<INoise2D, double> min, Func<INoise2D, double> max)
-        => new ClampedNoise2D(noise, min(noise), max(noise));
+    public static INoise3D Clamp(this INoise3D noise, Func<INoise3D, double> min, Func<INoise3D, double> max)
+        => new ClampedNoise3D(noise, min(noise), max(noise));
 
     /// <summary>
     /// Inverts the values produced by the noise generator within its original range.
@@ -141,8 +132,8 @@ public static class NoiseExtensions
     /// <param name="noise">The noise generator.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Invert(this INoise2D noise)
-        => new InvertedNoise2D(noise);
+    public static INoise3D Invert(this INoise3D noise)
+        => new InvertedNoise3D(noise);
 
     /// <summary>
     /// Shifts the noise generator with the given amount on the axes.
@@ -150,10 +141,11 @@ public static class NoiseExtensions
     /// <param name="noise">The noise generator.</param>
     /// <param name="x">The amount of shift on the x-axis.</param>
     /// <param name="y">The amount of shift on the y-axis.</param>
+    /// <param name="z">The amount of shift on the z-axis.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Shift(this INoise2D noise, double x, double y)
-        => new ShiftedNoise2D(noise, x, y);
+    public static INoise3D Shift(this INoise3D noise, double x, double y, double z)
+        => new ShiftedNoise3D(noise, x, y, z);
 
     /// <summary>
     /// Adds the results of two noise generators.
@@ -162,8 +154,8 @@ public static class NoiseExtensions
     /// <param name="other">The other noise generator.</param>
     /// <returns>The combined noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Add(this INoise2D noise, INoise2D other)
-        => new AddedNoise2D(noise, other);
+    public static INoise3D Add(this INoise3D noise, INoise3D other)
+        => new AddedNoise3D(noise, other);
 
     /// <summary>
     /// Adds the results of multiple noise generators.
@@ -172,11 +164,11 @@ public static class NoiseExtensions
     /// <param name="others">The other noise generators.</param>
     /// <returns>The combined noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Add(this INoise2D noise, IEnumerable<INoise2D> others)
+    public static INoise3D Add(this INoise3D noise, IEnumerable<INoise3D> others)
     {
-        INoise2D result = noise;
+        INoise3D result = noise;
 
-        foreach (INoise2D other in others)
+        foreach (INoise3D other in others)
         {
             result = result.Add(other);
         }
@@ -191,8 +183,8 @@ public static class NoiseExtensions
     /// <param name="others">The other noise generators.</param>
     /// <returns>The combined noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Add(this INoise2D noise, params INoise2D[] others)
-        => noise.Add((IEnumerable<INoise2D>)others);
+    public static INoise3D Add(this INoise3D noise, params INoise3D[] others)
+        => noise.Add((IEnumerable<INoise3D>)others);
 
     /// <summary>
     /// Adds a scalar to the result of a noise generator.
@@ -201,8 +193,8 @@ public static class NoiseExtensions
     /// <param name="scalar">The added scalar.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Add(this INoise2D noise, double scalar)
-        => new AddedScalarNoise2D(noise, scalar);
+    public static INoise3D Add(this INoise3D noise, double scalar)
+        => new AddedScalarNoise3D(noise, scalar);
 
     /// <summary>
     /// Subtracts the results of two noise generators.
@@ -211,8 +203,8 @@ public static class NoiseExtensions
     /// <param name="other">The other noise generator.</param>
     /// <returns>The combined noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Subtract(this INoise2D noise, INoise2D other)
-        => new SubtractedNoise2D(noise, other);
+    public static INoise3D Subtract(this INoise3D noise, INoise3D other)
+        => new SubtractedNoise3D(noise, other);
 
     /// <summary>
     /// Subtracts the results of multiple noise generators.
@@ -221,11 +213,11 @@ public static class NoiseExtensions
     /// <param name="others">The other noise generators.</param>
     /// <returns>The combined noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Subtract(this INoise2D noise, IEnumerable<INoise2D> others)
+    public static INoise3D Subtract(this INoise3D noise, IEnumerable<INoise3D> others)
     {
-        INoise2D result = noise;
+        INoise3D result = noise;
 
-        foreach (INoise2D other in others)
+        foreach (INoise3D other in others)
         {
             result = result.Subtract(other);
         }
@@ -240,8 +232,8 @@ public static class NoiseExtensions
     /// <param name="others">The other noise generators.</param>
     /// <returns>The combined noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Subtract(this INoise2D noise, params INoise2D[] others)
-        => noise.Subtract((IEnumerable<INoise2D>)others);
+    public static INoise3D Subtract(this INoise3D noise, params INoise3D[] others)
+        => noise.Subtract((IEnumerable<INoise3D>)others);
 
     /// <summary>
     /// Subtracts a scalar from the result of a noise generator.
@@ -250,8 +242,8 @@ public static class NoiseExtensions
     /// <param name="scalar">The subtracted scalar.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Subtract(this INoise2D noise, double scalar)
-        => new SubtractedScalarNoise2D(noise, scalar);
+    public static INoise3D Subtract(this INoise3D noise, double scalar)
+        => new SubtractedScalarNoise3D(noise, scalar);
 
     /// <summary>
     /// Multiplies the results of two noise generators.
@@ -260,8 +252,8 @@ public static class NoiseExtensions
     /// <param name="other">The other noise generator.</param>
     /// <returns>The combined noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Multiply(this INoise2D noise, INoise2D other)
-        => new MultipliedNoise2D(noise, other);
+    public static INoise3D Multiply(this INoise3D noise, INoise3D other)
+        => new MultipliedNoise3D(noise, other);
 
     /// <summary>
     /// Multiplies the results of multiple noise generators.
@@ -270,11 +262,11 @@ public static class NoiseExtensions
     /// <param name="others">The other noise generators.</param>
     /// <returns>The combined noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Multiply(this INoise2D noise, IEnumerable<INoise2D> others)
+    public static INoise3D Multiply(this INoise3D noise, IEnumerable<INoise3D> others)
     {
-        INoise2D result = noise;
+        INoise3D result = noise;
 
-        foreach (INoise2D other in others)
+        foreach (INoise3D other in others)
         {
             result = result.Multiply(other);
         }
@@ -289,8 +281,8 @@ public static class NoiseExtensions
     /// <param name="others">The other noise generators.</param>
     /// <returns>The combined noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Multiply(this INoise2D noise, params INoise2D[] others)
-        => noise.Multiply((IEnumerable<INoise2D>)others);
+    public static INoise3D Multiply(this INoise3D noise, params INoise3D[] others)
+        => noise.Multiply((IEnumerable<INoise3D>)others);
 
     /// <summary>
     /// Multiplies a scalar with the result of a noise generator.
@@ -299,8 +291,8 @@ public static class NoiseExtensions
     /// <param name="scalar">The multiplication scalar.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Multiply(this INoise2D noise, double scalar)
-        => new MultipliedScalarNoise2D(noise, scalar);
+    public static INoise3D Multiply(this INoise3D noise, double scalar)
+        => new MultipliedScalarNoise3D(noise, scalar);
 
     /// <summary>
     /// Applies a function to every value obtained from the given noise generator.
@@ -313,8 +305,8 @@ public static class NoiseExtensions
     /// <param name="max">The function to compute the new maximum value.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Apply(this INoise2D noise, Func<double, double> func, Func<INoise2D, double> min, Func<INoise2D, double> max)
-        => new AppliedLambdaNoise2D(noise, func, min, max);
+    public static INoise3D Apply(this INoise3D noise, Func<double, double> func, Func<INoise3D, double> min, Func<INoise3D, double> max)
+        => new AppliedLambdaNoise3D(noise, func, min, max);
 
     /// <summary>
     /// Applies a function to every value obtained from the given noise generator.
@@ -327,7 +319,7 @@ public static class NoiseExtensions
     /// <param name="max">The new maximum value.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D Apply(this INoise2D noise, Func<double, double> func, double min, double max)
+    public static INoise3D Apply(this INoise3D noise, Func<double, double> func, double min, double max)
         => noise.Apply(func, n => min, n => max);
 
     /// <summary>
@@ -340,7 +332,7 @@ public static class NoiseExtensions
     /// <param name="power">Controls the shape of the curve. Higher power causes a more rectangular shape.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D ApplySigmoid(this INoise2D noise, double gradient, double power)
+    public static INoise3D ApplySigmoid(this INoise3D noise, double gradient, double power)
     {
         if (Math.Abs(power) < double.Epsilon)
         {
@@ -385,8 +377,8 @@ public static class NoiseExtensions
     /// <param name="seed">The new seed.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D WithSeed(this INoise2D noise, int seed)
-        => new SeededNoise2D(noise, seed);
+    public static INoise3D WithSeed(this INoise3D noise, int seed)
+        => new SeededNoise3D(noise, seed);
 
     /// <summary>
     /// Modifies a seed supplied to the noise generator containing this noise generator.
@@ -395,6 +387,6 @@ public static class NoiseExtensions
     /// <param name="seed">The seed modification.</param>
     /// <returns>The modified noise generator.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static INoise2D WithSeed(this INoise2D noise, Func<int, int> seed)
-        => new SeededLambdaNoise2D(noise, seed);
+    public static INoise3D WithSeed(this INoise3D noise, Func<int, int> seed)
+        => new SeededLambdaNoise3D(noise, seed);
 }

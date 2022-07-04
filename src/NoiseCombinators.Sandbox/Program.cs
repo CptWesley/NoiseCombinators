@@ -1,10 +1,14 @@
 ﻿using NoiseCombinators.NoiseGenerators2D.Basis;
+using NoiseCombinators.NoiseGenerators3D.Basis;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace NoiseCombinators.Sandbox;
@@ -30,7 +34,7 @@ public static class Program
     [SupportedOSPlatform("windows")]
     private static async Task BiomeExampleAsync()
     {
-        const int size = 2560;
+        const int size = 128;
         const int sizeHalf = size / 2;
         const double scale = 125;
         INoise2D noise = new BicubicNoise2D()
@@ -58,16 +62,25 @@ public static class Program
             .Normalize()
             .Apply(x => Math.Pow(x, 1.5), 0, 1)
             .ApplyKernelFilter(Kernels.Gaussian2D5);
+        INoise3D caveNoise = new TricubicNoise3D()
+            .WithSeed(12)
+            .Scale(10)
+            .Shift(-sizeHalf, -sizeHalf, -sizeHalf)
+            .Normalize()
+            .ApplySigmoid(8, 8);
         DateTime time = DateTime.Now;
         Task<double[][]> temperaturesTask = temperatureNoise.GetChunkAsync(0, 0, size, size);
         Task<double[][]> humiditiesTask = humidityNoise.GetChunkAsync(0, 0, size, size);
         Task<double[][]> heightsTask = heightNoise.GetChunkAsync(0, 0, size, size);
+        Task<double[][][]> cavesTask = caveNoise.GetChunkAsync(0, 0, 0, size, size, 64);
         double[][] temperatures = await temperaturesTask.ConfigureAwait(false);
         double[][] humidities = await humiditiesTask.ConfigureAwait(false);
         double[][] heights = await heightsTask.ConfigureAwait(false);
+        double[][][] caves = await cavesTask.ConfigureAwait(false);
         SaveAsImage(temperatures, $"{time:yyyy-MM-dd-HH-mm-ss}-heatmap.png", Turbo);
         SaveAsImage(humidities, $"{time:yyyy-MM-dd-HH-mm-ss}-humidity.png", Turbo);
         SaveAsImage(heights, $"{time:yyyy-MM-dd-HH-mm-ss}-height.png", Grayscale);
+        SaveAsImage(caves[32], $"{time:yyyy-MM-dd-HH-mm-ss}-slice.png", Grayscale);
 
         byte[][] biomes = new byte[size][];
         Color[] biomeMap = new Color[256];
@@ -158,6 +171,7 @@ public static class Program
 
         SaveAsImage(biomes, $"{time:yyyy-MM-dd-HH-mm-ss}-biomes.png", biomeMap);
         SaveAsImage(biomes, $"{time:yyyy-MM-dd-HH-mm-ss}-detail.png", biomeMap, heights);
+        SaveAsVox(biomes, heights, caves, $"{time:yyyy-MM-dd-HH-mm-ss}-3d.vox", biomeMap);
     }
 
     [SupportedOSPlatform("windows")]
@@ -265,6 +279,88 @@ public static class Program
 
         bmp.Save(fileName, ImageFormat.Png);
         imgGcHandle.Free();
+    }
+
+    private static void SaveAsVox(byte[][] biomes, double[][] heights, double[][][] caves, string fileName, Color[] colorMap)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("{");
+        sb.AppendLine("\"domain\":\"\",");
+        sb.AppendLine($"\"name\":\"{Path.GetFileNameWithoutExtension(fileName)}\",");
+        sb.AppendLine("\"layers\":[");
+        sb.AppendLine("{");
+        sb.AppendLine("\"name\":\"Main\",");
+        sb.AppendLine("\"voxels\":[");
+
+        bool first = true;
+
+        for (int x = 0; x < biomes.Length; x++)
+        {
+            for (int y = 0; y < biomes[0].Length; y++)
+            {
+                byte biome = biomes[x][y];
+                double heightD = heights[x][y];
+                byte height = (byte)(Math.Max(0, Math.Min(64, heightD * 64)));
+
+
+                for (int z = 0; z < height; z++)
+                {
+                    if (biome != 1 && caves[x][y][z] > 0.75)
+                    {
+                        continue;
+                    }
+
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        sb.AppendLine(",");
+                    }
+
+                    sb.Append($"[{x}, {z}, {y}, {biome}]");
+                }
+            }
+        }
+
+        sb.AppendLine("],");
+        sb.AppendLine("\"visible\": true,");
+        sb.AppendLine("\"locked\": false");
+        sb.AppendLine("}");
+        sb.AppendLine("],");
+        sb.AppendLine("\"palette\":[");
+        
+        for (int i = 0; i < colorMap.Length; i++)
+        {
+            Color color = colorMap[i];
+            byte[] bytes = new byte[3];
+            bytes[0] = color.R;
+            bytes[1] = color.G;
+            bytes[2] = color.B;
+            string hex = Convert.ToHexString(bytes);
+            int value = int.Parse(hex, NumberStyles.HexNumber);
+            sb.Append(value);
+            if (i != colorMap.Length - 1)
+            {
+                sb.AppendLine(",");
+            }
+            else
+            {
+                sb.AppendLine();
+            }
+        }
+
+        sb.AppendLine("],");
+        sb.AppendLine("\"settings\":{");
+        sb.AppendLine("\"linesColor\": 0,");
+        sb.AppendLine("\"showOutline\": false,");
+        sb.AppendLine("\"showWireframe\": true,");
+        sb.AppendLine("\"enableLighting\": true,");
+        sb.AppendLine("\"showBoundingBox\": false");
+        sb.AppendLine("}");
+        sb.AppendLine("}");
+        File.WriteAllText(fileName, sb.ToString());
     }
 
     private static Color[] Turbo = new Color[]

@@ -97,7 +97,7 @@ public abstract class TricubicNoiseBase3D : HashBasedNoise3D
                 double[] l32 = col3[icyLow + 1];
                 double[] l33 = col3[icyLow + 2];
 
-                for (int iz = 0; iz < stepSizeZ; iz++)
+                for (int iz = 0; iz < stepsZ; iz++)
                 {
                     double cz = zOff + (iz * stepSizeZ);
                     int iczLow = BitUtilities.FastFloor(cz);

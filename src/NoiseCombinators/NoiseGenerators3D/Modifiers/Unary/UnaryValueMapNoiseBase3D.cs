@@ -79,7 +79,7 @@ public abstract class UnaryValueMapNoiseBase3D : UnaryNoiseBase3D
 
                 for (int iz = 0; iz < depth; iz++)
                 {
-                    layer[iy] = MapValue(layer[iy]);
+                    layer[iz] = MapValue(layer[iz]);
                 }
             }
         }
